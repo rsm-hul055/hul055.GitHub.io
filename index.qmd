@@ -17,5 +17,5 @@ Here is a paragraph about me! I am a graduate student in UCSD Rady school
 
 last updated 2025-04-06
 
-{{<pdf other_documents/resume.pdf width=100% height=800>}}
+{{<pdf Resume/Resume_Hui Liu 04052024.pdf width=100% height=800>}}
 
