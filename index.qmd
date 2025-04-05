@@ -1,0 +1,21 @@
+---
+title: "Hui's Website"
+image: "Screenshot 2025-04-05 094900.jpg"
+about:
+    template: jolla
+    links:
+        - icon: envelope
+          href: mailto:hl055@ucsd.edu
+        - icon: linkedin
+          href: https://www.linkedin.com/in/
+        - icon: github
+          href: https://github.com/rsm-hul055
+---
+
+Here is a paragraph about me! I am a graduate student in UCSD Rady school
+
+
+last updated 2025-04-06
+
+{{<pdf other_documents/resume.pdf width=100% height=800>}}
+
