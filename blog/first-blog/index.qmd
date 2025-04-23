@@ -1,0 +1,6 @@
+---
+title: "first-blog"
+date: 2025-04-23
+---
+
+This is my first blog post. I'm excited to share my work with the world!

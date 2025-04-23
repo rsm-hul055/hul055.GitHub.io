@@ -4,5 +4,17 @@
   },
   "about.qmd": {
     "about.html": "7460813a"
+  },
+  "blog/blog.qmd": {
+    "blog.html": "ce2cfb31"
+  },
+  "blog/first blog.qmd": {
+    "first blog.html": "dab7ece5"
+  },
+  "Resume/resume.qmd": {
+    "resume.html": "fb8ad3e3"
+  },
+  "blog/first-blog/index.qmd": {
+    "index.html": "964e9d05"
   }
 }
