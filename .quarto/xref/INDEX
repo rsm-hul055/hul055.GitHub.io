@@ -16,5 +16,8 @@
   },
   "blog/first-blog/index.qmd": {
     "index.html": "964e9d05"
+  },
+  "resume/resume.qmd": {
+    "resume.html": "83357472"
   }
 }
