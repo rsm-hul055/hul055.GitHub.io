@@ -14,7 +14,7 @@ website:
         text: Blog
       - href: about.qmd
         text: About
-      - href: projects.qmd
+      - href: project/projects.qmd
         text: Homework
 
 format:
