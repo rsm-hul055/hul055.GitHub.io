@@ -240,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The outcome variables: whether the individual donated and how much they gave</li>
 </ul>
 <p>Below is the code used to load the dataset into Python and show a snapshot of its structure:</p>
-<div id="9c08a418" class="cell" data-execution_count="1">
+<div id="35d2ffea" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -251,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Display shape and variable names</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>df.shape, df.columns.tolist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>((50083, 51),
  ['treatment',
   'control',
@@ -552,7 +552,7 @@ Variable Definitions
 <p>The average for the control group is <strong>12.99 months</strong>, while for the treatment group it is <strong>13.01 months</strong>. A t-test comparing these means yields <strong>t = 0.12, p = 0.905</strong>, indicating no statistically significant difference.</p>
 <p>We also estimate a linear regression of <code>mrm2</code> on the treatment indicator. The coefficient is effectively zero and not statistically significant, confirming the same conclusion.</p>
 <p>These results suggest that the randomization was successful: the two groups appear well-balanced with respect to prior giving behavior. This gives us confidence that subsequent differences in donation outcomes can be attributed to the experimental treatments.</p>
-<div id="500f9eab" class="cell" data-execution_count="2">
+<div id="ab9ecd0c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -602,7 +602,7 @@ Dep. Variable:                   mrm2   R-squared:                       0.000
 Model:                            OLS   Adj. R-squared:                 -0.000
 Method:                 Least Squares   F-statistic:                   0.01428
 Date:                Wed, 23 Apr 2025   Prob (F-statistic):              0.905
-Time:                        22:42:03   Log-Likelihood:            -1.9585e+05
+Time:                        22:46:31   Log-Likelihood:            -1.9585e+05
 No. Observations:               50082   AIC:                         3.917e+05
 Df Residuals:                   50080   BIC:                         3.917e+05
 Df Model:                           1                                         
@@ -647,7 +647,7 @@ Why check for balance?
 <section id="charitable-contribution-made-1" class="level2">
 <h2 class="anchored" data-anchor-id="charitable-contribution-made-1">Charitable Contribution Made</h2>
 <p>We begin by comparing donation rates between the treatment and control groups. In the graph below, we see the proportion of individuals who gave any donation, split by whether they received a matching offer or not.</p>
-<div id="b84d0bf0" class="cell" data-execution_count="3">
+<div id="f5e90997" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -707,9 +707,9 @@ treatment  0.086785  0.027879   3.11293  0.001852  0.032143  0.141426</code></pr
 <p>The donation rate for the control group is approximately 1.8%, while for the treatment group it is 2.2%. This difference is statistically significant:</p>
 <p>A t-test yields t = 3.21, p = 0.0013, indicating that the observed difference is unlikely to be due to random chance.</p>
 <p>A linear probability model (OLS) confirms this result with a positive and significant coefficient on treatment:</p>
-<div id="518c4ece" class="cell" data-execution_count="4">
+<div id="469568de" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ols_model.summary2().tables[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="22">
 <div>
 
 
@@ -751,9 +751,9 @@ treatment  0.086785  0.027879   3.11293  0.001852  0.032143  0.141426</code></pr
 </div>
 </div>
 <p>To further validate the result, we estimate a probit model of donation on treatment status. The probit coefficient is 0.087 (p = 0.0019), again confirming a statistically significant effect of matching offers.</p>
-<div id="9763e1f1" class="cell" data-execution_count="5">
+<div id="72bc6725" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>probit_model.summary2().tables[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="23">
 <div>
 
 
@@ -819,7 +819,7 @@ Interpretation
 <p>2:1 vs 3:1: p = 0.9600</p>
 <p>These p-values indicate that the differences in response rates across match ratios are not statistically significant. Therefore, larger match ratios do not appear to generate significantly higher giving rates, consistent with what Karlan &amp; List describe on page 8: “the figures suggest no consistent pattern.”</p>
 <p>Regression Analysis To validate this further, I estimate a linear regression model with dummy variables indicating the different match ratios:</p>
-<div id="d4eb15c6" class="cell" data-execution_count="6">
+<div id="5f643fad" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ratio1"</span>] <span class="op">=</span> (df[<span class="st">"ratio"</span>] <span class="op">==</span> <span class="dv">1</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ratio2"</span>] <span class="op">=</span> (df[<span class="st">"ratio"</span>] <span class="op">==</span> <span class="dv">2</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ratio3"</span>] <span class="op">=</span> (df[<span class="st">"ratio"</span>] <span class="op">==</span> <span class="dv">3</span>).astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -852,7 +852,7 @@ Conclusion
 <p>Conditional on Donating Next, we restrict the sample to only those who made a donation. This allows us to analyze how much respondents donate conditional on giving something. The treatment coefficient becomes -1.669, with a p-value of 0.561, indicating no statistically significant difference in the donation size between treatment and control groups among those who chose to give.</p>
 <p>This suggests that while the offer of a match may increase the likelihood of donating (as shown earlier), it does not significantly impact the amount donated by those who do choose to donate.</p>
 <p>Distributional Plots We also visualize the distribution of donation amounts for treatment and control groups using histograms:</p>
-<div id="d4734d1d" class="cell" data-execution_count="7">
+<div id="a9a565ac" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paste your existing plotting code here.</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -879,7 +879,7 @@ Conclusion
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Frequency"</span>)</span>
 <span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
 <span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="25">
 <div>
 <figure class="figure">
 <p><img src="index_files/figure-html/cell-8-output-1.png" width="593" height="449" class="figure-img"></p>
@@ -913,7 +913,7 @@ Conclusion
 <p>This chart illustrates the Law of Large Numbers using a simulated experiment. I generated 10,000 simulated donation outcomes for the control group (Bernoulli p = 0.018) and 10,000 for the treatment group (Bernoulli p = 0.022), and then computed the cumulative average of their differences.</p>
 <p>As shown, the cumulative average is quite noisy at the beginning due to the small sample size — early differences fluctuate dramatically. However, as the number of observations increases, the cumulative average stabilizes around 0.004 (the true treatment effect), demonstrating convergence.</p>
 <p>This supports the intuition behind large sample inference: as the sample size grows, random variation diminishes, and estimates converge to their true values.</p>
-<div id="ba518779" class="cell" data-execution_count="8">
+<div id="31794ab5" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -940,7 +940,7 @@ Conclusion
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Cumulative Average"</span>)</span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="26">
 <div>
 <figure class="figure">
 <p><img src="index_files/figure-html/cell-9-output-1.png" width="597" height="449" class="figure-img"></p>
@@ -958,7 +958,7 @@ Conclusion
 </section>
 <section id="central-limit-theorem" class="level3">
 <h3 class="anchored" data-anchor-id="central-limit-theorem">Central Limit Theorem</h3>
-<div id="4fc8c94d" class="cell" data-execution_count="9">
+<div id="b59f4d18" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -971,7 +971,7 @@ Conclusion
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="op">=</span> [<span class="dv">50</span>, <span class="dv">200</span>, <span class="dv">500</span>, <span class="dv">1000</span>]</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create 4 histograms</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, n <span class="kw">in</span> <span class="bu">enumerate</span>(sample_sizes):</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    differences <span class="op">=</span> []</span>
@@ -989,17 +989,17 @@ Conclusion
 <span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="27">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-10-output-1.png" width="1141" height="756" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-10-output-1.png" width="757" height="372" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-10-output-2.png" width="1141" height="756" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-10-output-2.png" width="757" height="372" class="figure-img"></p>
 </figure>
 </div>
 </div>

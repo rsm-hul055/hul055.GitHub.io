@@ -399,7 +399,7 @@ p_treatment = 0.022
 sample_sizes = [50, 200, 500, 1000]
 
 # Create 4 histograms
-fig, axs = plt.subplots(2, 2, figsize=(12, 8))
+fig, axs = plt.subplots(2, 2, figsize=(8, 4))
 
 for i, n in enumerate(sample_sizes):
     differences = []
