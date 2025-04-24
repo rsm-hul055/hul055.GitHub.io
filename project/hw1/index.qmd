@@ -50,6 +50,7 @@ df = pd.read_stata("karlan_list_2007.dta")
 df.shape, df.columns.tolist()
 ```
 
+
 :::: {.callout-note collapse="true"}
 ### Variable Definitions
 
