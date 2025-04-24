@@ -37,5 +37,11 @@
   },
   "project/projects.qmd": {
     "projects.html": "9f63c4b2"
+  },
+  "hw1_questions.qmd": {
+    "hw1_questions.html": "6ef7135f"
+  },
+  "project/hw1/hw1.ipynb": {
+    "hw1.html": "dff2e576"
   }
 }
