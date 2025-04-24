@@ -32,7 +32,7 @@ We analyze the dataset provided by the authors, which contains 50,083 observatio
 
 - Experimental assignment: whether the individual received a control or treatment letter, and what kind of match ratio they received
 - Past donation behavior: frequency, amount, time since last donation, etc.
-- Demographics and political geography (e.g., red/blue state or county)
+- Demographics and political geography 
 - The outcome variables: whether the individual donated and how much they gave
 
 Below is the code used to load the dataset into Python and show a snapshot of its structure:
@@ -115,8 +115,6 @@ df.shape, df.columns.tolist()
 
 As an ad hoc test of the randomization mechanism, I provide a series of tests that compare aspects of the treatment and control groups to assess whether they are statistically significantly different from one another.
 
-## Balance Check
-
 We begin by checking whether the treatment and control groups are balanced in terms of observable characteristics. This is a common first step in analyzing randomized experiments: if randomization was implemented correctly, both groups should be similar on all baseline variables.
 
 Here, we focus on one such variable: the number of months since a donor's last contribution (`mrm2`). 
@@ -176,8 +174,6 @@ Balance tests help confirm that the randomization worked as expected. If the tre
 
 First, I analyze whether matched donations lead to an increased response rate of making a donation. 
 
-## Charitable Contribution Made
-
 We begin by comparing donation rates between the treatment and control groups. In the graph below, we see the proportion of individuals who gave any donation, split by whether they received a matching offer or not.
 
 ```{python}
@@ -190,23 +186,23 @@ from scipy import stats
 
 
 df = pd.read_stata("karlan_list_2007.dta")
-# 创建 treatment vs control 捐款比例 barplot 所需数据
+
 gave_by_group = df.groupby("treatment")["gave"].mean().rename({0: "Control", 1: "Treatment"})
 
-# t-test 检验：是否捐款 (gave) 在 treatment vs control 中有显著差异
+# t-test 
 t_stat, p_value = stats.ttest_ind(
     df[df["treatment"] == 1]["gave"],
     df[df["treatment"] == 0]["gave"],
     equal_var=False
 )
 
-# 线性回归：gave ~ treatment
+# linear regression
 ols_model = smf.ols("gave ~ treatment", data=df).fit()
 
-# Probit 回归
+# Probit 
 probit_model = smf.probit("gave ~ treatment", data=df).fit(disp=False)
 
-# 绘图
+
 fig, ax = plt.subplots(figsize=(6,4))
 gave_by_group.plot(kind='bar', color=["pink", "blue"], ax=ax)
 ax.set_ylabel("Proportion Donated")
@@ -269,9 +265,27 @@ Regression Analysis
 To validate this further, I estimate a linear regression model with dummy variables indicating the different match ratios:
 
 ```{python}
+import pandas as pd
+import statsmodels.api as sm
+from scipy import stats
+
+
+df = pd.read_stata("karlan_list_2007.dta")
+
 df["ratio1"] = (df["ratio"] == 1).astype(int)
 df["ratio2"] = (df["ratio"] == 2).astype(int)
 df["ratio3"] = (df["ratio"] == 3).astype(int)
+
+
+df_matched = df[df["treatment"] == 1]
+
+
+X = df_matched[["ratio1", "ratio2", "ratio3"]]
+X = sm.add_constant(X)
+y = df_matched["gave"]
+
+model = sm.OLS(y, X).fit()
+model.summary2().tables[1]
 ```
 
 The regression on gave using these dummies among the treatment group yields:
@@ -310,10 +324,10 @@ Distributional Plots
 We also visualize the distribution of donation amounts for treatment and control groups using histograms:
 
 ```{python}
-# Paste your existing plotting code here.
+
 import matplotlib.pyplot as plt
 
-# Prepare data
+
 control_amounts = df[(df["treatment"] == 0) & (df["gave"] == 1)]["amount"]
 treatment_amounts = df[(df["treatment"] == 1) & (df["gave"] == 1)]["amount"]
 
@@ -359,21 +373,21 @@ This supports the intuition behind large sample inference: as the sample size gr
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Set probabilities
+
 p_control = 0.018
 p_treatment = 0.022
 n = 10_000
 
-# Simulate donation outcomes
+
 np.random.seed(42)
 control = np.random.binomial(n=1, p=p_control, size=n)
 treatment = np.random.binomial(n=1, p=p_treatment, size=n)
 
-# Calculate difference vector and cumulative average
+
 diff = treatment - control
 cumulative_avg = np.cumsum(diff) / np.arange(1, n + 1)
 
-# Plot cumulative average
+# Plot 
 fig, ax = plt.subplots()
 ax.plot(cumulative_avg, label="Cumulative Average")
 ax.axhline(y=0.004, color="red", linestyle="--", label="True Treatment Effect (0.004)")
@@ -391,15 +405,15 @@ fig
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Set random seed
+
 np.random.seed(123)
 
-# Simulation parameters
+
 p_control = 0.018
 p_treatment = 0.022
 sample_sizes = [50, 200, 500, 1000]
 
-# Create 4 histograms
+
 fig, axs = plt.subplots(2, 2, figsize=(8, 4))
 
 for i, n in enumerate(sample_sizes):
