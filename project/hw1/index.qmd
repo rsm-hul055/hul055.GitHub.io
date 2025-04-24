@@ -2,6 +2,8 @@
 title: "A Replication of Karlan and List (2007)"
 author: "Hui Liu"
 date: 04/23/2025
+format: html
+jupyter: python3
 callout-appearance: minimal # this hides the blue "i" icon on .callout-notes
 ---
 
@@ -35,15 +37,18 @@ We analyze the dataset provided by the authors, which contains 50,083 observatio
 
 Below is the code used to load the dataset into Python and show a snapshot of its structure:
 
-```python
+```{python}
 import pandas as pd
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+from scipy import stats
 
-# Load the Stata dataset
-df = pd.read_stata("project/hw1/karlan_list_2007.dta")
+
+df = pd.read_stata("karlan_list_2007.dta")
 
 # Display shape and variable names
 df.shape, df.columns.tolist()
-
+```
 
 :::: {.callout-note collapse="true"}
 ### Variable Definitions
@@ -123,26 +128,39 @@ These results suggest that the randomization was successful: the two groups appe
 
 
 ```{python}
+
 import pandas as pd
-from scipy import stats
 import statsmodels.api as sm
+import matplotlib.pyplot as plt
+from scipy import stats
+
 
 df = pd.read_stata("karlan_list_2007.dta")
 
-df_subset = df[["treatment", "mrm2"]].dropna()
+#  treatment + control + mrm2
+df_subset = df[["treatment", "control", "mrm2"]].dropna()
 
+# 
 means = df_subset.groupby("treatment")["mrm2"].mean()
-print(means)
 
+# t-test 
 t_stat, p_value = stats.ttest_ind(
     df_subset[df_subset["treatment"] == 1]["mrm2"],
     df_subset[df_subset["treatment"] == 0]["mrm2"],
-    equal_var=False
+    equal_var=False  # Welch's t-test
 )
+
 
 X = sm.add_constant(df_subset["treatment"])
 model = sm.OLS(df_subset["mrm2"], X).fit()
-model.summary()
+
+
+print("=== mean value ===")
+print(means)
+print("\n=== t-test ===")
+print(f"t = {t_stat:.3f}, p = {p_value:.3f}")
+print("\n=== OLS Regression result ===")
+print(model.summary())
 ```
 
 ::: {.callout-note title="Why check for balance?"}
@@ -162,8 +180,32 @@ First, I analyze whether matched donations lead to an increased response rate of
 We begin by comparing donation rates between the treatment and control groups. In the graph below, we see the proportion of individuals who gave any donation, split by whether they received a matching offer or not.
 
 ```{python}
-import matplotlib.pyplot as plt
 
+import statsmodels.formula.api as smf
+import pandas as pd
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+from scipy import stats
+
+
+df = pd.read_stata("karlan_list_2007.dta")
+# 创建 treatment vs control 捐款比例 barplot 所需数据
+gave_by_group = df.groupby("treatment")["gave"].mean().rename({0: "Control", 1: "Treatment"})
+
+# t-test 检验：是否捐款 (gave) 在 treatment vs control 中有显著差异
+t_stat, p_value = stats.ttest_ind(
+    df[df["treatment"] == 1]["gave"],
+    df[df["treatment"] == 0]["gave"],
+    equal_var=False
+)
+
+# 线性回归：gave ~ treatment
+ols_model = smf.ols("gave ~ treatment", data=df).fit()
+
+# Probit 回归
+probit_model = smf.probit("gave ~ treatment", data=df).fit(disp=False)
+
+# 绘图
 fig, ax = plt.subplots(figsize=(6,4))
 gave_by_group.plot(kind='bar', color=["pink", "blue"], ax=ax)
 ax.set_ylabel("Proportion Donated")
@@ -171,6 +213,13 @@ ax.set_title("Donation Rate by Treatment Group")
 ax.set_xticklabels(["Control", "Treatment"], rotation=0)
 ax.set_ylim(0, 0.05)
 plt.tight_layout()
+
+
+print("t =", t_stat, "p =", p_value)
+
+print(ols_model.summary2().tables[1])
+
+print(probit_model.summary2().tables[1])
 ```
 
 
