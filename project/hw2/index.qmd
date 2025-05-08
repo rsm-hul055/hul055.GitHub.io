@@ -502,7 +502,7 @@ average_increase
 
 ```
 
-This simulation suggests that, on average, enabling Instant Bookable leads to approximately f"{average_increase:.2f}" more reviews per listing, holding all other characteristics constant. This reinforces the importance of reducing booking friction to increase customer engagement on the platform.
+This simulation suggests that, on average, enabling Instant Bookable leads to approximately 7.96 more reviews per listing, holding all other characteristics constant. This reinforces the importance of reducing booking friction to increase customer engagement on the platform.
 
 
 ### Conclusion
@@ -512,6 +512,6 @@ Price is negatively associated with reviews, suggesting that more expensive list
 
 Review scores on cleanliness, location, and value are strong predictors of booking volume, especially value and location.
 
-Instant Bookable status meaningfully increases expected bookings. A counterfactual simulation showed that enabling instant booking is associated with an average increase of roughly X reviews per listing.
+Instant Bookable status meaningfully increases expected bookings. A counterfactual simulation showed that enabling instant booking is associated with an average increase of roughly 7.96 reviews per listing.
 
 These findings suggest that Airbnb hosts can boost their success by improving perceived value, maintaining high review quality, and enabling instant booking where possible.
