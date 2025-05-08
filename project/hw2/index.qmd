@@ -22,7 +22,8 @@ However, Blueprinty has collected data on 1,500 mature (non-startup) engineering
 import pandas as pd
 
 df = pd.read_csv("./blueprinty.csv")
-
+#| echo: true
+#| results: 'hide'
 df.info(), df.head()
 ```
 
@@ -45,14 +46,14 @@ plt.legend(title="Is Customer", labels=["No", "Yes"])
 plt.tight_layout()
 plt.show()
 
-mean_patents
+print("Mean number of patents by customer status:")
+print(mean_patents.round(2))
 ```
 
 The chart above shows the distribution of the number of patents granted over the past five years, categorized by whether a company is a Blueprinty customer. We also calculated the average number of patents for each group:
 
-Non-customers had an average of approximately 3.47 patents
-
-Customers had an average of approximately 4.13 patents
+- **Non-customers:** 3.47 patents  
+- **Customers:** 4.13 patents
 
 Based on both the histogram and the means, companies that use Blueprinty’s software tend to hold more patents overall. This provides some support for the marketing team’s claim that Blueprinty customers are more successful in obtaining patents.
 
@@ -133,7 +134,7 @@ $$
 
 This log-likelihood function is the basis for estimating the maximum likelihood value of \( \lambda \).
 
-And，this is a function of lambda and Y.
+This log-likelihood function depends on both λ and the observed values Y.
 
 ```{python}
 import numpy as np
@@ -144,7 +145,8 @@ def poisson_log_likelihood(lmbda, Y):
     return np.sum(Y * np.log(lmbda) - lmbda - gammaln(Y + 1))
 ```
 
-We evaluated the Poisson log-likelihood over a grid of candidate values of 𝜆. As shown in the plot below, the log-likelihood reaches its maximum at approximately 𝜆=3.68 which is equal to the sample mean of the observed patent counts. This is consistent with the theoretical property of the Poisson distribution, where the MLE ofλ is equal to the sample mean.
+We evaluated the Poisson log-likelihood over a grid of candidate λ values. As shown in the plot below, the log-likelihood is maximized at approximately λ = 3.68, which equals the sample mean.
+
 ```{python}
 import numpy as np
 import matplotlib.pyplot as plt
@@ -154,14 +156,12 @@ from scipy.special import gammaln
 def poisson_log_likelihood(lmbda, Y):
     return np.sum(Y * np.log(lmbda) - lmbda - gammaln(Y + 1))
 
-# Load observed patent data
 Y = df["patents"].values
 
 # Create a range of lambda values
 lambda_values = np.linspace(1, 7, 200)
 log_likelihoods = [poisson_log_likelihood(lmbda, Y) for lmbda in lambda_values]
 
-# Plot log-likelihood curve
 plt.figure(figsize=(8, 5))
 plt.plot(lambda_values, log_likelihoods, color="blue", label="Log-Likelihood")
 plt.axvline(np.mean(Y), color="red", linestyle="--", label=f"Sample Mean = {np.mean(Y):.2f}")
@@ -214,7 +214,6 @@ initial_lambda = [2.0]
 # Run optimization
 result = minimize(neg_log_likelihood, x0=initial_lambda, args=(Y,), bounds=[(1e-5, None)])
 
-# Extract MLE result
 lambda_mle = result.x[0]
 lambda_mle
 ```
@@ -238,14 +237,14 @@ def poisson_regression_loglikelihood(beta, Y, X):
 ```
 
 ```{python}
-# Re-import everything cleanly
+
 import pandas as pd
 import numpy as np
 from scipy.optimize import minimize
 from scipy.special import gammaln
 import patsy
 
-# Reload dataset
+
 df = pd.read_csv("./blueprinty.csv")
 
 # Standardize age and age^2 (z-score, then round to 1 decimal place)
@@ -273,12 +272,12 @@ initial_beta = np.zeros(X_matrix.shape[1])
 # Optimize with bounds and BFGS
 result = minimize(neg_loglik, initial_beta, args=(Y, X_matrix), method="BFGS", options={"disp": True})
 
-# Extract results
+
 beta_hat = result.x
 hessian = result.hess_inv
 standard_errors = np.sqrt(np.diag(hessian))
 
-# Summary table
+
 summary_df = pd.DataFrame({
     "Coefficient": beta_hat,
     "Std. Error": standard_errors
@@ -347,33 +346,38 @@ Using the estimated Poisson regression coefficients, we predicted the number of 
 This means that, **on average, using Blueprinty's software is associated with nearly 0.8 more patents per firm** over a 5-year period, controlling for firm age and region. This provides strong evidence in support of the software's effectiveness.
 
 ```{python}
-# Step 1: Copy original X matrix and modify iscustomer column to create X_0 and X_1
+
 X_0 = X.copy()
 X_1 = X.copy()
 
-# Identify the column name for iscustomer
+
 iscustomer_col = [col for col in X.columns if "iscustomer" in col][0]
 
-# Set iscustomer = 0 for X_0 and 1 for X_1
+
 X_0[iscustomer_col] = 0
 X_1[iscustomer_col] = 1
 
-# Convert to matrices for prediction
+
 X0_matrix = X_0.values
 X1_matrix = X_1.values
 
-# Predict Poisson means (lambda) for each firm under the two scenarios
+
 y_pred_0 = np.exp(X0_matrix @ beta_hat)
 y_pred_1 = np.exp(X1_matrix @ beta_hat)
 
-# Compute average difference in expected number of patents
+
 diff = y_pred_1 - y_pred_0
 average_diff = np.mean(diff)
 average_diff
 
 ```
 
+###Conclusion
+In this case study, we investigated the relationship between the use of Blueprinty's software and the number of patents awarded to engineering firms. Using a Poisson regression framework estimated via maximum likelihood, we found strong evidence that Blueprinty customers tend to receive more patents than non-customers—even after controlling for firm age and regional location.
 
+The coefficient on the customer indicator was statistically significant and implied a 23% increase in expected patent counts. A counterfactual prediction exercise further suggested that, on average, using Blueprinty's software is associated with nearly 0.8 additional patents per firm over a 5-year period.
+
+Overall, the results support the marketing team’s claim that Blueprinty’s product may enhance patent success. However, further research using experimental or longitudinal data would be helpful to more definitively establish causality.
 
 ## AirBnB Case Study
 
