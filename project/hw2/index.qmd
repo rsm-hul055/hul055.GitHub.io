@@ -38,7 +38,7 @@ mean_patents = df.groupby("iscustomer")["patents"].mean().rename({0: "Non-Custom
 
 
 plt.figure(figsize=(10, 6))
-sns.histplot(data=df, x="patents", hue="iscustomer", multiple="stack", palette="Set2", bins=20)
+sns.histplot(data=df, x="patents", hue="iscustomer", multiple="stack", palette="Set2", bins=20, alpha=0.8)
 plt.xlabel("Number of Patents (Last 5 Years)")
 plt.ylabel("Number of Firms")
 plt.title("Distribution of Patents by Blueprinty Customer Status")
@@ -88,7 +88,7 @@ plt.show()
 
 
 plt.figure(figsize=(10, 5))
-sns.histplot(data=df, x="age", hue="iscustomer", multiple="stack", bins=20, palette="Set2")
+sns.histplot(data=df, x="age", hue="iscustomer", multiple="stack", bins=20, palette="Set2", alpha=0.8)
 plt.title("Distribution of Firm Ages by Customer Status")
 plt.xlabel("Firm Age (Years Since Incorporation)")
 plt.ylabel("Number of Firms")
