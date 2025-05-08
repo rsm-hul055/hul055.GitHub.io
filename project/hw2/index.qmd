@@ -481,14 +481,14 @@ X_1: All listings are set to instantly bookable (ibook = 1)
 We use the fitted Poisson regression model to predict the number of reviews in both cases and compute the average difference.
 
 ```{python}
-# Create copies of design matrix
+
 X0_airbnb = X_airbnb.copy()
 X1_airbnb = X_airbnb.copy()
 
 # Identify the column corresponding to 'ibook'
 ibook_col = [col for col in X_airbnb.columns if "ibook" in col][0]
 
-# Set to 0 and 1 for the two counterfactuals
+
 X0_airbnb[ibook_col] = 0
 X1_airbnb[ibook_col] = 1
 
@@ -496,7 +496,6 @@ X1_airbnb[ibook_col] = 1
 pred_reviews_0 = np.exp(X0_airbnb @ poisson_results.params)
 pred_reviews_1 = np.exp(X1_airbnb @ poisson_results.params)
 
-# Calculate difference
 average_increase = np.mean(pred_reviews_1 - pred_reviews_0)
 average_increase
 
