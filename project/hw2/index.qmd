@@ -502,7 +502,7 @@ average_increase
 
 ```
 
-This simulation suggests that, on average, enabling Instant Bookable leads to approximately {average_increase:.2f} more reviews per listing, holding all other characteristics constant. This reinforces the importance of reducing booking friction to increase customer engagement on the platform.
+This simulation suggests that, on average, enabling Instant Bookable leads to approximately f"{average_increase:.2f}" more reviews per listing, holding all other characteristics constant. This reinforces the importance of reducing booking friction to increase customer engagement on the platform.
 
 
 ### Conclusion
