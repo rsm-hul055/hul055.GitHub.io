@@ -174,10 +174,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#estimation-of-poisson-regression-model" id="toc-estimation-of-poisson-regression-model" class="nav-link" data-scroll-target="#estimation-of-poisson-regression-model">Estimation of Poisson Regression Model</a></li>
   <li><a href="#interpretation-of-results" id="toc-interpretation-of-results" class="nav-link" data-scroll-target="#interpretation-of-results">Interpretation of Results</a></li>
   <li><a href="#marginal-effect-of-blueprinty-software" id="toc-marginal-effect-of-blueprinty-software" class="nav-link" data-scroll-target="#marginal-effect-of-blueprinty-software">Marginal Effect of Blueprinty Software</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul></li>
   <li><a href="#airbnb-case-study" id="toc-airbnb-case-study" class="nav-link" data-scroll-target="#airbnb-case-study">AirBnB Case Study</a>
   <ul class="collapse">
   <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1">Introduction</a></li>
+  <li><a href="#poisson-regression-model" id="toc-poisson-regression-model" class="nav-link" data-scroll-target="#poisson-regression-model">Poisson Regression Model</a></li>
+  <li><a href="#interpretation-of-results-1" id="toc-interpretation-of-results-1" class="nav-link" data-scroll-target="#interpretation-of-results-1">Interpretation of Results</a></li>
+  <li><a href="#marginal-effect-of-instant-bookable" id="toc-marginal-effect-of-instant-bookable" class="nav-link" data-scroll-target="#marginal-effect-of-instant-bookable">Marginal Effect of Instant Bookable</a></li>
+  <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1">Conclusion</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -225,7 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data" class="level3">
 <h3 class="anchored" data-anchor-id="data">Data</h3>
-<div id="dd5a7fa7" class="cell" data-execution_count="1">
+<div id="33b8728d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./blueprinty.csv"</span>)</span>
@@ -255,7 +260,7 @@ memory usage: 47.0+ KB</code></pre>
  4        3  Southwest  37.0           0)</code></pre>
 </div>
 </div>
-<div id="83a90d3a" class="cell" data-execution_count="2">
+<div id="82c5272a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -303,7 +308,7 @@ Name: patents, dtype: float64</code></pre>
 <p>As shown in the bar chart below, Blueprinty customers are not evenly distributed across regions. In particular, a notably higher proportion of customers come from the Northeast region, while other regions are more heavily populated by non-customers. This suggests that regional factors—such as industry concentration or market penetration—may influence software adoption.</p>
 <p>Similarly, in terms of firm age, customers appear to be slightly older on average than non-customers (26.9 vs.&nbsp;26.1 years). While the difference is modest, it indicates that older firms may be more likely to use Blueprinty’s software, potentially due to larger scale or greater administrative resources.</p>
 <p>These findings support the idea that regional and demographic factors may confound any observed relationship between software use and patent success, and should be accounted for in further modeling.</p>
-<div id="04b1d43d" class="cell" data-execution_count="3">
+<div id="d5b7215e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> mtick</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -380,7 +385,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 \]</span></p>
 <p>This log-likelihood function is the basis for estimating the maximum likelihood value of ( ).</p>
 <p>This log-likelihood function depends on both λ and the observed values Y.</p>
-<div id="003204fc" class="cell" data-execution_count="4">
+<div id="e8baf17e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gammaln</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -389,7 +394,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(Y <span class="op">*</span> np.log(lmbda) <span class="op">-</span> lmbda <span class="op">-</span> gammaln(Y <span class="op">+</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We evaluated the Poisson log-likelihood over a grid of candidate λ values. As shown in the plot below, the log-likelihood is maximized at approximately λ = 3.68, which equals the sample mean.</p>
-<div id="5209b1c0" class="cell" data-execution_count="5">
+<div id="ceb1d6fa" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gammaln</span>
@@ -441,7 +446,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 \hat{\lambda}_{\text{MLE}} = \frac{1}{n} \sum Y_i = \bar{Y}
 \]</span></p>
 <p>This result confirms that the MLE of ( ) under the Poisson distribution is simply the <strong>sample mean</strong> ( {Y} ), which is intuitive since ( [Y] = ) in the Poisson model.</p>
-<div id="0c856554" class="cell" data-execution_count="6">
+<div id="d2adddb8" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define negative log-likelihood (because we minimize)</span></span>
@@ -466,7 +471,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 <h3 class="anchored" data-anchor-id="estimation-of-poisson-regression-model">Estimation of Poisson Regression Model</h3>
 <p>Next, we extend our simple Poisson model to a Poisson Regression Model such that <span class="math inline">\(Y_i = \text{Poisson}(\lambda_i)\)</span> where <span class="math inline">\(\lambda_i = \exp(X_i'\beta)\)</span>. The interpretation is that the success rate of patent awards is not constant across all firms (<span class="math inline">\(\lambda\)</span>) but rather is a function of firm characteristics <span class="math inline">\(X_i\)</span>. Specifically, we will use the covariates age, age squared, region, and whether the firm is a customer of Blueprinty.</p>
 <p>We define the following log-likelihood function for Poisson regression:</p>
-<div id="55024c5a" class="cell" data-execution_count="7">
+<div id="81c2733b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gammaln</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -476,7 +481,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    lambdas <span class="op">=</span> np.exp(Xb)  <span class="co"># inverse link</span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(Y <span class="op">*</span> Xb <span class="op">-</span> lambdas <span class="op">-</span> gammaln(Y <span class="op">+</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1a6073e6" class="cell" data-execution_count="8">
+<div id="9627a3f5" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -535,7 +540,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 <li>The negative coefficients on both <code>age_std</code> and <code>age_sq_std</code> suggest a concave (inverted-U) relationship between firm age and patenting activity.</li>
 <li>Regional effects appear small and statistically insignificant relative to the Midwest baseline.</li>
 </ul>
-<div id="5f60c2f4" class="cell" data-execution_count="9">
+<div id="a7b87e83" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_df.<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
@@ -597,7 +602,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 </div>
 </div>
 <p>To verify our results, we re-estimate the model using Python’s built-in <code>GLM()</code> function from the <code>statsmodels</code> package with a Poisson family.</p>
-<div id="de081bb3" class="cell" data-execution_count="10">
+<div id="b1c48f1e" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>glm_model <span class="op">=</span> sm.GLM(Y, X_matrix, family<span class="op">=</span>sm.families.Poisson())</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>glm_results <span class="op">=</span> glm_model.fit()</span>
@@ -650,7 +655,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>19:50:12</td>
+<td>20:25:08</td>
 <td data-quarto-table-cell-role="th">Pearson chi2:</td>
 <td>2.07e+03</td>
 </tr>
@@ -778,7 +783,7 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 <p>Using the estimated Poisson regression coefficients, we predicted the number of patents for each firm in both scenarios and computed the average difference:</p>
 <p>[ = <em>i ( </em>{i, } - _{i, } ) ]</p>
 <p>This means that, <strong>on average, using Blueprinty’s software is associated with nearly 0.8 more patents per firm</strong> over a 5-year period, controlling for firm age and region. This provides strong evidence in support of the software’s effectiveness.</p>
-<div id="ece3dd74" class="cell" data-execution_count="11">
+<div id="d5d4aa22" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>X_0 <span class="op">=</span> X.copy()</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>X_1 <span class="op">=</span> X.copy()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -805,7 +810,10 @@ L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
 <pre><code>0.7958740085534443</code></pre>
 </div>
 </div>
-<p>###Conclusion In this case study, we investigated the relationship between the use of Blueprinty’s software and the number of patents awarded to engineering firms. Using a Poisson regression framework estimated via maximum likelihood, we found strong evidence that Blueprinty customers tend to receive more patents than non-customers—even after controlling for firm age and regional location.</p>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>In this case study, we investigated the relationship between the use of Blueprinty’s software and the number of patents awarded to engineering firms. Using a Poisson regression framework estimated via maximum likelihood, we found strong evidence that Blueprinty customers tend to receive more patents than non-customers—even after controlling for firm age and regional location.</p>
 <p>The coefficient on the customer indicator was statistically significant and implied a 23% increase in expected patent counts. A counterfactual prediction exercise further suggested that, on average, using Blueprinty’s software is associated with nearly 0.8 additional patents per firm over a 5-year period.</p>
 <p>Overall, the results support the marketing team’s claim that Blueprinty’s product may enhance patent success. However, further research using experimental or longitudinal data would be helpful to more definitively establish causality.</p>
 </section>
@@ -843,7 +851,223 @@ Variable Definitions
 </div>
 </div>
 </div>
-<p><em>todo: Assume the number of reviews is a good proxy for the number of bookings. Perform some exploratory data analysis to get a feel for the data, handle or drop observations with missing values on relevant variables, build one or more models (e.g., a poisson regression model for the number of bookings as proxied by the number of reviews), and interpret model coefficients to describe variation in the number of reviews as a function of the variables provided.</em></p>
+<p>Although true booking data is not available, we use the number of reviews as a proxy for the number of bookings, consistent with prior practice.</p>
+<div id="d8c85eef" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>df_airbnb <span class="op">=</span> pd.read_csv(<span class="st">"./airbnb.csv"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep only variables of interest</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>vars_of_interest <span class="op">=</span> [</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"room_type"</span>, <span class="st">"bathrooms"</span>, <span class="st">"bedrooms"</span>, <span class="st">"price"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"number_of_reviews"</span>, <span class="st">"review_scores_cleanliness"</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"review_scores_location"</span>, <span class="st">"review_scores_value"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"instant_bookable"</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>df_airbnb_clean <span class="op">=</span> df_airbnb[vars_of_interest].dropna()</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>sns.histplot(df_airbnb_clean[<span class="st">"number_of_reviews"</span>], bins<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Reviews"</span>)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Number of Listings"</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of Airbnb Reviews (Capped at 100)"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-13-output-1.png" width="753" height="466" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="poisson-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="poisson-regression-model">Poisson Regression Model</h3>
+<p>To model the number of reviews (as a proxy for bookings), we use a Poisson regression framework. The outcome is the count of reviews, and the predictors include listing characteristics, review scores, and room type.</p>
+<div id="c15591d7" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> patsy</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform and encode</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>df_airbnb_clean[<span class="st">"log_price"</span>] <span class="op">=</span> np.log(df_airbnb_clean[<span class="st">"price"</span>])</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>df_airbnb_clean[<span class="st">"ibook"</span>] <span class="op">=</span> (df_airbnb_clean[<span class="st">"instant_bookable"</span>] <span class="op">==</span> <span class="st">"t"</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Design matrix with one-hot encoding for room type</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>X_airbnb <span class="op">=</span> patsy.dmatrix(<span class="st">"1 + log_price + bedrooms + bathrooms + "</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"review_scores_cleanliness + review_scores_location + "</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"review_scores_value + ibook + C(room_type)"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                         df_airbnb_clean, return_type<span class="op">=</span><span class="st">"dataframe"</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>Y_airbnb <span class="op">=</span> df_airbnb_clean[<span class="st">"number_of_reviews"</span>].values</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Poisson model</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>poisson_model <span class="op">=</span> sm.GLM(Y_airbnb, X_airbnb, family<span class="op">=</span>sm.families.Poisson())</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>poisson_results <span class="op">=</span> poisson_model.fit()</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>poisson_results.summary2().tables[<span class="dv">1</span>]  <span class="co"># Clean coefficient table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Coef.</th>
+<th data-quarto-table-cell-role="th">Std.Err.</th>
+<th data-quarto-table-cell-role="th">z</th>
+<th data-quarto-table-cell-role="th">P&gt;|z|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>3.075887</td>
+<td>0.019149</td>
+<td>160.627772</td>
+<td>0.000000e+00</td>
+<td>3.038356</td>
+<td>3.113419</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">C(room_type)[T.Private room]</td>
+<td>0.085839</td>
+<td>0.003377</td>
+<td>25.421373</td>
+<td>1.463838e-142</td>
+<td>0.079221</td>
+<td>0.092457</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">C(room_type)[T.Shared room]</td>
+<td>-0.105034</td>
+<td>0.009105</td>
+<td>-11.535661</td>
+<td>8.721427e-31</td>
+<td>-0.122880</td>
+<td>-0.087188</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">log_price</td>
+<td>0.134508</td>
+<td>0.002879</td>
+<td>46.712984</td>
+<td>0.000000e+00</td>
+<td>0.128864</td>
+<td>0.140152</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">bedrooms</td>
+<td>0.046661</td>
+<td>0.002038</td>
+<td>22.900255</td>
+<td>4.619038e-116</td>
+<td>0.042667</td>
+<td>0.050655</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">bathrooms</td>
+<td>-0.152019</td>
+<td>0.003742</td>
+<td>-40.620057</td>
+<td>0.000000e+00</td>
+<td>-0.159354</td>
+<td>-0.144684</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">review_scores_cleanliness</td>
+<td>0.108745</td>
+<td>0.001496</td>
+<td>72.677404</td>
+<td>0.000000e+00</td>
+<td>0.105813</td>
+<td>0.111678</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">review_scores_location</td>
+<td>-0.097710</td>
+<td>0.001649</td>
+<td>-59.239789</td>
+<td>0.000000e+00</td>
+<td>-0.100943</td>
+<td>-0.094477</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">review_scores_value</td>
+<td>-0.079629</td>
+<td>0.001820</td>
+<td>-43.757618</td>
+<td>0.000000e+00</td>
+<td>-0.083196</td>
+<td>-0.076063</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ibook</td>
+<td>0.340836</td>
+<td>0.002891</td>
+<td>117.879132</td>
+<td>0.000000e+00</td>
+<td>0.335169</td>
+<td>0.346503</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="interpretation-of-results-1" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-of-results-1">Interpretation of Results</h3>
+<p>The regression results offer insight into what drives more bookings (as proxied by reviews):</p>
+<p>Price: The coefficient on log_price is negative, indicating that higher prices are associated with fewer bookings.</p>
+<p>Room Type: Shared and private rooms tend to receive fewer bookings compared to entire apartments, all else equal.</p>
+<p>Cleanliness, Location, Value: Higher review scores on these dimensions are significantly associated with more bookings, especially “value” and “location.”</p>
+<p>Instant Bookable: Listings that are instantly bookable see a meaningful increase in expected bookings, suggesting customers prefer lower friction when booking.</p>
+</section>
+<section id="marginal-effect-of-instant-bookable" class="level3">
+<h3 class="anchored" data-anchor-id="marginal-effect-of-instant-bookable">Marginal Effect of Instant Bookable</h3>
+<p>To estimate the practical impact of making a listing instantly bookable, we conduct a counterfactual simulation:</p>
+<p>X_0: All listings are set to not instantly bookable (ibook = 0)</p>
+<p>X_1: All listings are set to instantly bookable (ibook = 1)</p>
+<p>We use the fitted Poisson regression model to predict the number of reviews in both cases and compute the average difference.</p>
+<div id="0b5f5fb8" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create copies of design matrix</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>X0_airbnb <span class="op">=</span> X_airbnb.copy()</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>X1_airbnb <span class="op">=</span> X_airbnb.copy()</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the column corresponding to 'ibook'</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>ibook_col <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> X_airbnb.columns <span class="cf">if</span> <span class="st">"ibook"</span> <span class="kw">in</span> col][<span class="dv">0</span>]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to 0 and 1 for the two counterfactuals</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>X0_airbnb[ibook_col] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>X1_airbnb[ibook_col] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict expected reviews under each scenario</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>pred_reviews_0 <span class="op">=</span> np.exp(X0_airbnb <span class="op">@</span> poisson_results.params)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>pred_reviews_1 <span class="op">=</span> np.exp(X1_airbnb <span class="op">@</span> poisson_results.params)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate difference</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>average_increase <span class="op">=</span> np.mean(pred_reviews_1 <span class="op">-</span> pred_reviews_0)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>average_increase</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>7.964686182144014</code></pre>
+</div>
+</div>
+<p>This simulation suggests that, on average, enabling Instant Bookable leads to approximately {average_increase:.2f} more reviews per listing, holding all other characteristics constant. This reinforces the importance of reducing booking friction to increase customer engagement on the platform.</p>
+</section>
+<section id="conclusion-1" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-1">Conclusion</h3>
+<p>This analysis explored what drives variation in the number of Airbnb reviews—used as a proxy for bookings—across listings in New York City. Using Poisson regression, we find that several factors significantly predict higher booking rates:</p>
+<p>Price is negatively associated with reviews, suggesting that more expensive listings tend to receive fewer bookings.</p>
+<p>Review scores on cleanliness, location, and value are strong predictors of booking volume, especially value and location.</p>
+<p>Instant Bookable status meaningfully increases expected bookings. A counterfactual simulation showed that enabling instant booking is associated with an average increase of roughly X reviews per listing.</p>
+<p>These findings suggest that Airbnb hosts can boost their success by improving perceived value, maintaining high review quality, and enabling instant booking where possible.</p>
 
 
 </section>
