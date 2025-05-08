@@ -72,7 +72,7 @@ These findings support the idea that regional and demographic factors may confou
 ```{python}
 import matplotlib.ticker as mtick
 
-# Plot region distribution by customer status
+
 plt.figure(figsize=(10, 5))
 region_crosstab = pd.crosstab(df["region"], df["iscustomer"], normalize="index")
 region_crosstab.plot(kind="bar", stacked=True, color=["#d95f02", "#1b9e77"])
@@ -85,7 +85,7 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 
-# Age comparison
+
 plt.figure(figsize=(10, 5))
 sns.histplot(data=df, x="age", hue="iscustomer", multiple="stack", bins=20, palette="Set2")
 plt.title("Distribution of Firm Ages by Customer Status")
@@ -105,43 +105,273 @@ df.groupby("iscustomer")["age"].mean().rename({0: "Non-Customers", 1: "Customers
 
 Since our outcome variable of interest can only be small integer values per a set unit of time, we can use a Poisson density to model the number of patents awarded to each engineering firm over the last 5 years. We start by estimating a simple Poisson model via Maximum Likelihood.
 
-_todo: Write down mathematically the likelihood for_ $Y \sim \text{Poisson}(\lambda)$. Note that $f(Y|\lambda) = e^{-\lambda}\lambda^Y/Y!$.
+### Likelihood Function for Poisson Model
 
-_todo: Code the likelihood (or log-likelihood) function for the Poisson model. This is a function of lambda and Y. For example:_
+We assume that the number of patents \( Y \) for each firm follows a Poisson distribution with rate parameter \( \lambda \):
 
+$$
+Y \sim \text{Poisson}(\lambda)
+$$
+
+The probability mass function (i.e., the likelihood for a single observation) is:
+
+$$
+f(Y \mid \lambda) = \frac{e^{-\lambda} \lambda^Y}{Y!}
+$$
+
+Assuming that observations are independent across firms, the likelihood for the full sample \( Y_1, Y_2, \ldots, Y_n \) is:
+
+$$
+L(\lambda \mid Y) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}
+$$
+
+Taking the logarithm of the likelihood, we obtain the log-likelihood function:
+
+$$
+\log L(\lambda \mid Y) = \sum_{i=1}^{n} \left( -\lambda + Y_i \log \lambda - \log(Y_i!) \right)
+$$
+
+This log-likelihood function is the basis for estimating the maximum likelihood value of \( \lambda \).
+
+And，this is a function of lambda and Y.
+
+```{python}
+import numpy as np
+from scipy.special import gammaln
+
+def poisson_log_likelihood(lmbda, Y):
+
+    return np.sum(Y * np.log(lmbda) - lmbda - gammaln(Y + 1))
 ```
-poisson_loglikelihood <- function(lambda, Y){
-   ...
-}
+
+We evaluated the Poisson log-likelihood over a grid of candidate values of 𝜆. As shown in the plot below, the log-likelihood reaches its maximum at approximately 𝜆=3.68 which is equal to the sample mean of the observed patent counts. This is consistent with the theoretical property of the Poisson distribution, where the MLE ofλ is equal to the sample mean.
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.special import gammaln
+
+# Define Poisson log-likelihood function
+def poisson_log_likelihood(lmbda, Y):
+    return np.sum(Y * np.log(lmbda) - lmbda - gammaln(Y + 1))
+
+# Load observed patent data
+Y = df["patents"].values
+
+# Create a range of lambda values
+lambda_values = np.linspace(1, 7, 200)
+log_likelihoods = [poisson_log_likelihood(lmbda, Y) for lmbda in lambda_values]
+
+# Plot log-likelihood curve
+plt.figure(figsize=(8, 5))
+plt.plot(lambda_values, log_likelihoods, color="blue", label="Log-Likelihood")
+plt.axvline(np.mean(Y), color="red", linestyle="--", label=f"Sample Mean = {np.mean(Y):.2f}")
+plt.title("Poisson Log-Likelihood Curve")
+plt.xlabel("Lambda")
+plt.ylabel("Log-Likelihood")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
 ```
 
-_todo: Use your function to plot lambda on the horizontal axis and the likelihood (or log-likelihood) on the vertical axis for a range of lambdas (use the observed number of patents as the input for Y)._
 
-_todo: If you're feeling mathematical, take the first derivative of your likelihood or log-likelihood, set it equal to zero and solve for lambda. You will find lambda_mle is Ybar, which "feels right" because the mean of a Poisson distribution is lambda._
+### Analytical Derivation of the MLE
 
-_todo: Find the MLE by optimizing your likelihood function with optim() in R or sp.optimize() in Python._
+We now take the analytical approach to derive the Maximum Likelihood Estimator (MLE) for \( \lambda \) under the Poisson model.
 
+Recall the log-likelihood function for independent observations \( Y_1, Y_2, \dots, Y_n \sim \text{Poisson}(\lambda) \):
+
+$$
+\log L(\lambda \mid Y) = \sum_{i=1}^n \left( -\lambda + Y_i \log \lambda - \log(Y_i!) \right)
+$$
+
+To find the MLE, we take the derivative of the log-likelihood with respect to \( \lambda \) and set it equal to zero:
+
+$$
+\frac{d}{d\lambda} \log L(\lambda \mid Y) = \sum_{i=1}^n \left( -1 + \frac{Y_i}{\lambda} \right) = -n + \frac{\sum_{i=1}^n Y_i}{\lambda}
+$$
+
+Setting the derivative equal to zero:
+
+$$
+-n + \frac{\sum Y_i}{\lambda} = 0
+\quad \Rightarrow \quad
+\hat{\lambda}_{\text{MLE}} = \frac{1}{n} \sum Y_i = \bar{Y}
+$$
+
+This result confirms that the MLE of \( \lambda \) under the Poisson distribution is simply the **sample mean** \( \bar{Y} \), which is intuitive since \( \mathbb{E}[Y] = \lambda \) in the Poisson model.
+
+```{python}
+from scipy.optimize import minimize
+
+# Define negative log-likelihood (because we minimize)
+def neg_log_likelihood(lmbda, Y):
+    return -poisson_log_likelihood(lmbda[0], Y)
+
+# Initial guess for lambda
+initial_lambda = [2.0]
+
+# Run optimization
+result = minimize(neg_log_likelihood, x0=initial_lambda, args=(Y,), bounds=[(1e-5, None)])
+
+# Extract MLE result
+lambda_mle = result.x[0]
+lambda_mle
+```
+We now use numerical optimization to find the value of λ that maximizes the Poisson log-likelihood. Since scipy.optimize.minimize() minimizes functions by default, we minimize the negative log-likelihood. The optimization result confirms our earlier finding: the MLE of λ is approximately equal to the sample mean of the observed patent counts.
 
 ### Estimation of Poisson Regression Model
 
 Next, we extend our simple Poisson model to a Poisson Regression Model such that $Y_i = \text{Poisson}(\lambda_i)$ where $\lambda_i = \exp(X_i'\beta)$. The interpretation is that the success rate of patent awards is not constant across all firms ($\lambda$) but rather is a function of firm characteristics $X_i$. Specifically, we will use the covariates age, age squared, region, and whether the firm is a customer of Blueprinty.
 
-_todo: Update your likelihood or log-likelihood function with an additional argument to take in a covariate matrix X. Also change the parameter of the model from lambda to the beta vector. In this model, lambda must be a positive number, so we choose the inverse link function g_inv() to be exp() so that_ $\lambda_i = e^{X_i'\beta}$. _For example:_
+We define the following log-likelihood function for Poisson regression:
+
+```{python}
+import numpy as np
+from scipy.special import gammaln
+
+def poisson_regression_loglikelihood(beta, Y, X):
+
+    Xb = X @ beta  # linear predictor
+    lambdas = np.exp(Xb)  # inverse link
+    return np.sum(Y * Xb - lambdas - gammaln(Y + 1))
+```
+
+```{python}
+# Re-import everything cleanly
+import pandas as pd
+import numpy as np
+from scipy.optimize import minimize
+from scipy.special import gammaln
+import patsy
+
+# Reload dataset
+df = pd.read_csv("./blueprinty.csv")
+
+# Standardize age and age^2 (z-score, then round to 1 decimal place)
+df["age_std"] = ((df["age"] - df["age"].mean()) / df["age"].std()).round(1)
+df["age_sq_std"] = (df["age_std"] ** 2).round(1)
+
+# Design matrix: intercept, standardized age, age^2, region dummies, iscustomer
+X = patsy.dmatrix("1 + age_std + age_sq_std + C(region, Treatment(reference='Midwest')) + iscustomer", df, return_type="dataframe")
+Y = df["patents"].values
+X_matrix = X.values
+
+# Define Poisson regression log-likelihood
+def poisson_regression_loglikelihood(beta, Y, X):
+    Xb = X @ beta
+    lambdas = np.exp(Xb)
+    return np.sum(Y * Xb - lambdas - gammaln(Y + 1))
+
+# Negative log-likelihood for optimization
+def neg_loglik(beta, Y, X):
+    return -poisson_regression_loglikelihood(beta, Y, X)
+
+# Initial beta guess
+initial_beta = np.zeros(X_matrix.shape[1])
+
+# Optimize with bounds and BFGS
+result = minimize(neg_loglik, initial_beta, args=(Y, X_matrix), method="BFGS", options={"disp": True})
+
+# Extract results
+beta_hat = result.x
+hessian = result.hess_inv
+standard_errors = np.sqrt(np.diag(hessian))
+
+# Summary table
+summary_df = pd.DataFrame({
+    "Coefficient": beta_hat,
+    "Std. Error": standard_errors
+}, index=X.design_info.column_names)
 
 ```
-poisson_regression_likelihood <- function(beta, Y, X){
-   ...
-}
+The table below reports the estimated coefficients and standard errors from the Poisson regression model.
+
+- The coefficient on `iscustomer` is **0.2084** (SE = 0.0310), suggesting that Blueprinty customers are associated with a significantly higher rate of patent approvals, even after controlling for age and region.
+- The negative coefficients on both `age_std` and `age_sq_std` suggest a concave (inverted-U) relationship between firm age and patenting activity.
+- Regional effects appear small and statistically insignificant relative to the Midwest baseline.
+
+```{python}
+summary_df.round(4)
 ```
 
-_todo: Use your function along with R's optim() or Python's sp.optimize() to find the MLE vector and the Hessian of the Poisson model with covariates. Specifically, the first column of X should be all 1's to enable a constant term in the model, and the subsequent columns should be age, age squared, binary variables for all but one of the regions, and the binary customer variable. Use the Hessian to find standard errors of the beta parameter estimates and present a table of coefficients and standard errors._
 
-_todo: Check your results using R's glm() function or Python sm.GLM() function._
+To verify our results, we re-estimate the model using Python’s built-in `GLM()` function from the `statsmodels` package with a Poisson family.
 
-_todo: Interpret the results._ 
+```{python}
+import statsmodels.api as sm
+glm_model = sm.GLM(Y, X_matrix, family=sm.families.Poisson())
+glm_results = glm_model.fit()
+glm_summary_df = pd.DataFrame({
+    "Coefficient (GLM)": glm_results.params,
+    "Std. Error (GLM)": glm_results.bse
+}, index=X.design_info.column_names)
 
-_todo: What do you conclude about the effect of Blueprinty's software on patent success? Because the beta coefficients are not directly interpretable, it may help to create two fake datasets: X_0 and X_1 where X_0 is the X data but with iscustomer=0 for every observation and X_1 is the X data but with iscustomer=1 for every observation. Then, use X_0 and your fitted model to get the vector of predicted number of patents (y_pred_0) for every firm in the dataset, and use X_1 to get Y_pred_1 for every firm. Then subtract y_pred_1 minus y_pred_0 and take the average of that vector of differences._
+# Summary table
+glm_results.summary()
+```
 
+The coefficient estimates from `GLM()` match those obtained via our custom maximum likelihood estimation, confirming the correctness of our implementation. Standard errors are also nearly identical, supporting the numerical validity of our Hessian-based uncertainty estimates.
+
+
+### Interpretation of Results
+
+The Poisson regression results provide insight into the firm-level factors associated with higher rates of patent awards.
+
+- **Blueprinty Customers**: The coefficient for `iscustomer` is approximately **0.208**, which is statistically significant. Interpreting this in the context of a Poisson model, we exponentiate the coefficient:  
+  \[
+  e^{0.208} \approx 1.23
+  \]
+  This implies that, holding other factors constant, firms using Blueprinty's software are expected to receive **23% more patents** on average than comparable non-customers.
+
+- **Firm Age**: The negative coefficients on both `age_std` and `age_sq_std` suggest a concave relationship between firm age and patent production. Younger firms tend to have increasing returns to experience initially, but beyond a certain point, additional age is associated with diminishing patent activity.
+
+- **Region**: The regional dummy variables (relative to the Midwest) show small and statistically insignificant effects. This suggests that after controlling for age and customer status, regional location is not a strong predictor of patenting success in this dataset.
+
+Overall, the model supports Blueprinty's marketing claim: even after controlling for firm characteristics, their customers tend to achieve higher rates of patent success.
+
+
+### Marginal Effect of Blueprinty Software
+
+To interpret the practical impact of Blueprinty's software, we simulated two counterfactual scenarios:
+
+- `X_0`: All firms are treated as **non-customers** (`iscustomer = 0`)
+- `X_1`: All firms are treated as **customers** (`iscustomer = 1`)
+
+Using the estimated Poisson regression coefficients, we predicted the number of patents for each firm in both scenarios and computed the average difference:
+
+\[
+\text{Average Increase in Patents} = \frac{1}{n} \sum_i \left( \hat{y}_{i, \text{customer}} - \hat{y}_{i, \text{non-customer}} \right) \approx 0.80
+\]
+
+This means that, **on average, using Blueprinty's software is associated with nearly 0.8 more patents per firm** over a 5-year period, controlling for firm age and region. This provides strong evidence in support of the software's effectiveness.
+
+```{python}
+# Step 1: Copy original X matrix and modify iscustomer column to create X_0 and X_1
+X_0 = X.copy()
+X_1 = X.copy()
+
+# Identify the column name for iscustomer
+iscustomer_col = [col for col in X.columns if "iscustomer" in col][0]
+
+# Set iscustomer = 0 for X_0 and 1 for X_1
+X_0[iscustomer_col] = 0
+X_1[iscustomer_col] = 1
+
+# Convert to matrices for prediction
+X0_matrix = X_0.values
+X1_matrix = X_1.values
+
+# Predict Poisson means (lambda) for each firm under the two scenarios
+y_pred_0 = np.exp(X0_matrix @ beta_hat)
+y_pred_1 = np.exp(X1_matrix @ beta_hat)
+
+# Compute average difference in expected number of patents
+diff = y_pred_1 - y_pred_0
+average_diff = np.mean(diff)
+average_diff
+
+```
 
 
 
