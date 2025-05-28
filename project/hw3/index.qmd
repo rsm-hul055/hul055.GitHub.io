@@ -64,7 +64,7 @@ where the variables are binary indicators and $\varepsilon$ is Type 1 Extreme Va
 
 The "hard part" of the MNL likelihood function is organizing the data, as we need to keep track of 3 dimensions (consumer $i$, covariate $k$, and product $j$) instead of the typical 2 dimensions for cross-sectional regression models (consumer $i$ and covariate $k$). The fact that each task for each respondent has the same number of alternatives (3) helps.  In addition, we need to convert the categorical variables for brand and ads into binary variables.
 
-:::: {.callout-note collapse="true"}
+::: {.callout-note collapse=true title="Read Data"}
 ```{python echo=False}
 import pandas as pd
 
@@ -72,7 +72,7 @@ df = pd.read_csv("./conjoint_data.csv")
 
 df.info(), df.head()
 ```
-::::
+:::
 
 ### Data Summary
 
@@ -113,7 +113,7 @@ $$
 
 We compute the negative log-likelihood, then solve for parameter estimates by minimizing this objective. We also compute the inverse Hessian to obtain standard errors and 95% confidence intervals.
 
-::: {.callout-note title="Maximum Likelihood Estimation Results"}
+::: {.callout-note title="Maximum Likelihood Estimation Results" collapse=true}
 
 ```{python echo=False}
 import numpy as np
@@ -182,7 +182,7 @@ Brand_N and Brand_P have positive coefficients, suggesting they are preferred ov
 Advertising (ad_Yes) has a negative coefficient, indicating that advertising may reduce product utility in this context.
 
 ## 5. Estimation via Bayesian Methods
-::: {.callout-note title="Maximum Likelihood Estimation Results"}
+::: {.callout-note title="Bayesian Posterior Summary for the 4 Parameters" collapse=true}
 
 ```{python echo=False}
 import numpy as np
@@ -251,6 +251,7 @@ summary_df["CI Upper"] = posterior_df.quantile(0.975)
 summary_df
 ```
 :::
+
 ### Bayesian Posterior Summary for the 4 Parameters
 
 | Parameter | Posterior Mean | Std. Dev | 95% Credible Interval        |
@@ -265,7 +266,7 @@ summary_df
 The following figure shows the trace plots and posterior histograms for each of the four parameters estimated via Metropolis-Hastings:
 
 ```{python echo=False, fig-width=10, fig-height=8}
-fig, axes = plt.subplots(4, 2, figsize=(12, 10))
+fig, axes = plt.subplots(4, 2, figsize=(8, 8))
 param_names = ["price", "brand_N", "brand_P", "ad_Yes"]
 
 for i, param in enumerate(param_names):
