@@ -236,7 +236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The outcome variables: whether the individual donated and how much they gave</li>
 </ul>
 <p>Below is the code used to load the dataset into Python and show a snapshot of its structure:</p>
-<div id="8803e6a5" class="cell" data-execution_count="1">
+<div id="06215c8a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -544,7 +544,7 @@ Variable Definitions
 <p>The average for the control group is <strong>12.99 months</strong>, while for the treatment group it is <strong>13.01 months</strong>. A t-test comparing these means yields <strong>t = 0.12, p = 0.905</strong>, indicating no statistically significant difference.</p>
 <p>We also estimate a linear regression of <code>mrm2</code> on the treatment indicator. The coefficient is effectively zero and not statistically significant, confirming the same conclusion.</p>
 <p>These results suggest that the randomization was successful: the two groups appear well-balanced with respect to prior giving behavior. This gives us confidence that subsequent differences in donation outcomes can be attributed to the experimental treatments.</p>
-<div id="035c6875" class="cell" data-execution_count="2">
+<div id="da7440fd" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -594,7 +594,7 @@ Dep. Variable:                   mrm2   R-squared:                       0.000
 Model:                            OLS   Adj. R-squared:                 -0.000
 Method:                 Least Squares   F-statistic:                   0.01428
 Date:                Wed, 28 May 2025   Prob (F-statistic):              0.905
-Time:                        14:22:15   Log-Likelihood:            -1.9585e+05
+Time:                        15:45:31   Log-Likelihood:            -1.9585e+05
 No. Observations:               50082   AIC:                         3.917e+05
 Df Residuals:                   50080   BIC:                         3.917e+05
 Df Model:                           1                                         
@@ -636,7 +636,7 @@ Why check for balance?
 <h3 class="anchored" data-anchor-id="charitable-contribution-made">Charitable Contribution Made</h3>
 <p>First, I analyze whether matched donations lead to an increased response rate of making a donation.</p>
 <p>We begin by comparing donation rates between the treatment and control groups. In the graph below, we see the proportion of individuals who gave any donation, split by whether they received a matching offer or not.</p>
-<div id="7589f8f7" class="cell" data-execution_count="3">
+<div id="93d6c092" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -696,7 +696,7 @@ treatment  0.086785  0.027879   3.11293  0.001852  0.032143  0.141426</code></pr
 <p>The donation rate for the control group is approximately 1.8%, while for the treatment group it is 2.2%. This difference is statistically significant:</p>
 <p>A t-test yields t = 3.21, p = 0.0013, indicating that the observed difference is unlikely to be due to random chance.</p>
 <p>A linear probability model (OLS) confirms this result with a positive and significant coefficient on treatment:</p>
-<div id="251e952c" class="cell" data-execution_count="4">
+<div id="ac499a77" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ols_model.summary2().tables[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
@@ -740,7 +740,7 @@ treatment  0.086785  0.027879   3.11293  0.001852  0.032143  0.141426</code></pr
 </div>
 </div>
 <p>To further validate the result, we estimate a probit model of donation on treatment status. The probit coefficient is 0.087 (p = 0.0019), again confirming a statistically significant effect of matching offers.</p>
-<div id="0e3e9ffb" class="cell" data-execution_count="5">
+<div id="204b247e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>probit_model.summary2().tables[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
@@ -809,7 +809,7 @@ Interpretation
 <p>2:1 vs 3:1: p = 0.9600</p>
 <p>These p-values indicate that the differences in response rates across match ratios are not statistically significant. Therefore, larger match ratios do not appear to generate significantly higher giving rates, consistent with what Karlan &amp; List describe on page 8: “the figures suggest no consistent pattern.”</p>
 <p>Regression Analysis To validate this further, I estimate a linear regression model with dummy variables indicating the different match ratios:</p>
-<div id="54bde5d6" class="cell" data-execution_count="6">
+<div id="acf5d89e" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
@@ -918,7 +918,7 @@ Conclusion
 <p>Conditional on Donating Next, we restrict the sample to only those who made a donation. This allows us to analyze how much respondents donate conditional on giving something. The treatment coefficient becomes -1.669, with a p-value of 0.561, indicating no statistically significant difference in the donation size between treatment and control groups among those who chose to give.</p>
 <p>This suggests that while the offer of a match may increase the likelihood of donating (as shown earlier), it does not significantly impact the amount donated by those who do choose to donate.</p>
 <p>Distributional Plots We also visualize the distribution of donation amounts for treatment and control groups using histograms:</p>
-<div id="a3d1653e" class="cell" data-execution_count="7">
+<div id="8e64b3bb" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -978,7 +978,7 @@ Conclusion
 <p>This chart illustrates the Law of Large Numbers using a simulated experiment. I generated 10,000 simulated donation outcomes for the control group (Bernoulli p = 0.018) and 10,000 for the treatment group (Bernoulli p = 0.022), and then computed the cumulative average of their differences.</p>
 <p>As shown, the cumulative average is quite noisy at the beginning due to the small sample size — early differences fluctuate dramatically. However, as the number of observations increases, the cumulative average stabilizes around 0.004 (the true treatment effect), demonstrating convergence.</p>
 <p>This supports the intuition behind large sample inference: as the sample size grows, random variation diminishes, and estimates converge to their true values.</p>
-<div id="d0098b62" class="cell" data-execution_count="8">
+<div id="097303e9" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1023,7 +1023,7 @@ Conclusion
 </section>
 <section id="central-limit-theorem" class="level3">
 <h3 class="anchored" data-anchor-id="central-limit-theorem">Central Limit Theorem</h3>
-<div id="00a52b69" class="cell" data-execution_count="9">
+<div id="ca7cc281" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>

@@ -269,7 +269,7 @@ Read Data
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="97be1fdd" class="cell" data-execution_count="1">
+<div id="24517774" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./conjoint_data.csv"</span>)</span>
@@ -346,7 +346,7 @@ memory usage: 140.8+ KB</code></pre>
 </section>
 <section id="one-hot-encode-categorical-variables" class="level3">
 <h3 class="anchored" data-anchor-id="one-hot-encode-categorical-variables">One-hot Encode Categorical Variables</h3>
-<div id="4edf34ea" class="cell" data-execution_count="2">
+<div id="0d270b3c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One-hot encode brand and ad</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df_encoded <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>[<span class="st">"brand"</span>, <span class="st">"ad"</span>], drop_first<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -389,7 +389,7 @@ Maximum Likelihood Estimation Results
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="b968b825" class="cell" data-execution_count="3">
+<div id="a769a7a4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -503,6 +503,48 @@ Maximum Likelihood Estimation Results
 </div>
 </div>
 </div>
+<p>The table below shows the Maximum Likelihood Estimates, standard errors, and 95% confidence intervals for each parameter:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Estimate</th>
+<th>Std. Error</th>
+<th>95% CI Lower</th>
+<th>95% CI Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>price</td>
+<td>-0.0995</td>
+<td>0.0063</td>
+<td>-0.1119</td>
+<td>-0.0871</td>
+</tr>
+<tr class="even">
+<td>brand_N</td>
+<td>0.9412</td>
+<td>0.1187</td>
+<td>0.7085</td>
+<td>1.1739</td>
+</tr>
+<tr class="odd">
+<td>brand_P</td>
+<td>0.5016</td>
+<td>0.1215</td>
+<td>0.2636</td>
+<td>0.7397</td>
+</tr>
+<tr class="even">
+<td>ad_Yes</td>
+<td>-0.7320</td>
+<td>0.0890</td>
+<td>-0.9064</td>
+<td>-0.5576</td>
+</tr>
+</tbody>
+</table>
 <section id="interpretation" class="level3">
 <h3 class="anchored" data-anchor-id="interpretation">Interpretation:</h3>
 <p>Price has a statistically significant negative coefficient, confirming that higher prices reduce the probability of selection.</p>
@@ -524,7 +566,7 @@ Bayesian Posterior Summary for the 4 Parameters
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="8641ca54" class="cell" data-execution_count="4">
+<div id="c3b80ef7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -644,38 +686,50 @@ Bayesian Posterior Summary for the 4 Parameters
 <section id="bayesian-posterior-summary-for-the-4-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="bayesian-posterior-summary-for-the-4-parameters">Bayesian Posterior Summary for the 4 Parameters</h3>
 <table class="table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Parameter</th>
 <th>Posterior Mean</th>
 <th>Std. Dev</th>
-<th>95% Credible Interval</th>
+<th>95% Credible Interval Lower</th>
+<th>95% Credible Interval Upper</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>price</code></td>
+<td>price</td>
 <td>-0.0998</td>
 <td>0.0065</td>
-<td>[-0.1130, -0.0872]</td>
+<td>-0.1130</td>
+<td>-0.0872</td>
 </tr>
 <tr class="even">
-<td><code>brand_N</code></td>
+<td>brand_N</td>
 <td>0.9382</td>
 <td>0.1101</td>
-<td>[0.7246, 1.1603]</td>
+<td>0.7246</td>
+<td>1.1603</td>
 </tr>
 <tr class="odd">
-<td><code>brand_P</code></td>
+<td>brand_P</td>
 <td>0.4997</td>
 <td>0.1076</td>
-<td>[0.2974, 0.7273]</td>
+<td>0.2974</td>
+<td>0.7273</td>
 </tr>
 <tr class="even">
-<td><code>ad_Yes</code></td>
+<td>ad_Yes</td>
 <td>-0.7274</td>
 <td>0.0904</td>
-<td>[-0.9025, -0.5410]</td>
+<td>-0.9025</td>
+<td>-0.5410</td>
 </tr>
 </tbody>
 </table>
@@ -683,7 +737,7 @@ Bayesian Posterior Summary for the 4 Parameters
 <section id="posterior-distributions-and-trace-plots" class="level3">
 <h3 class="anchored" data-anchor-id="posterior-distributions-and-trace-plots">Posterior Distributions and Trace Plots</h3>
 <p>The following figure shows the trace plots and posterior histograms for each of the four parameters estimated via Metropolis-Hastings:</p>
-<div id="5cd32bc1" class="cell" data-execution_count="5">
+<div id="947f1199" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">4</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>param_names <span class="op">=</span> [<span class="st">"price"</span>, <span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -710,24 +764,23 @@ Bayesian Posterior Summary for the 4 Parameters
 </section>
 <section id="mle-vs-bayesian-estimates" class="level3">
 <h3 class="anchored" data-anchor-id="mle-vs-bayesian-estimates">MLE Vs Bayesian Estimates</h3>
-<div id="47911a88" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mle_values <span class="op">=</span> {</span>
+<div id="2e008898" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bayes_values <span class="op">=</span> {</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"price"</span>: [<span class="op">-</span><span class="fl">0.0998</span>, <span class="fl">0.0065</span>],</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"brand_N"</span>: [<span class="fl">0.9382</span>, <span class="fl">0.1101</span>],</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"brand_P"</span>: [<span class="fl">0.4997</span>, <span class="fl">0.1076</span>],</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ad_Yes"</span>: [<span class="op">-</span><span class="fl">0.7274</span>, <span class="fl">0.0904</span>]</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>compare_df <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Parameter"</span>: [<span class="st">"price"</span>, <span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>],</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MLE Estimate"</span>: [mle_values[p][<span class="dv">0</span>] <span class="cf">for</span> p <span class="kw">in</span> mle_values],</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MLE Std. Error"</span>: [mle_values[p][<span class="dv">1</span>] <span class="cf">for</span> p <span class="kw">in</span> mle_values],</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bayes Mean"</span>: summary_df[<span class="st">"mean"</span>].values,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bayes Std. Dev"</span>: summary_df[<span class="st">"std"</span>].values</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>compare_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>compare_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Parameter"</span>: [<span class="st">"price"</span>, <span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>],</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MLE Estimate"</span>: [<span class="op">-</span><span class="fl">0.0995</span>, <span class="fl">0.9412</span>, <span class="fl">0.5016</span>, <span class="op">-</span><span class="fl">0.7320</span>],</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MLE Std. Error"</span>: [<span class="fl">0.0063</span>, <span class="fl">0.1187</span>, <span class="fl">0.1215</span>, <span class="fl">0.0890</span>],</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bayes Mean"</span>: [<span class="op">-</span><span class="fl">0.0998</span>, <span class="fl">0.9382</span>, <span class="fl">0.4997</span>, <span class="op">-</span><span class="fl">0.7274</span>],</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bayes Std. Dev"</span>: [<span class="fl">0.0065</span>, <span class="fl">0.1101</span>, <span class="fl">0.1076</span>, <span class="fl">0.0904</span>]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>compare_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -747,34 +800,34 @@ Bayesian Posterior Summary for the 4 Parameters
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>price</td>
+<td>-0.0995</td>
+<td>0.0063</td>
 <td>-0.0998</td>
 <td>0.0065</td>
-<td>-0.099777</td>
-<td>0.006504</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>brand_N</td>
+<td>0.9412</td>
+<td>0.1187</td>
 <td>0.9382</td>
 <td>0.1101</td>
-<td>0.938162</td>
-<td>0.110142</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>brand_P</td>
+<td>0.5016</td>
+<td>0.1215</td>
 <td>0.4997</td>
 <td>0.1076</td>
-<td>0.499689</td>
-<td>0.107640</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>ad_Yes</td>
+<td>-0.7320</td>
+<td>0.0890</td>
 <td>-0.7274</td>
 <td>0.0904</td>
-<td>-0.727447</td>
-<td>0.090435</td>
 </tr>
 </tbody>
 </table>
