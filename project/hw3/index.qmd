@@ -296,23 +296,25 @@ plt.tight_layout()
 
 ### MLE Vs Bayesian Estimates
 ```{python echo=False}
-bayes_values = {
-    "price": [-0.0998, 0.0065],
-    "brand_N": [0.9382, 0.1101],
-    "brand_P": [0.4997, 0.1076],
-    "ad_Yes": [-0.7274, 0.0904]
-}
 
 compare_df = pd.DataFrame({
     "Parameter": ["price", "brand_N", "brand_P", "ad_Yes"],
     "MLE Estimate": [-0.0995, 0.9412, 0.5016, -0.7320],
-    "MLE Std. Error": [0.0063, 0.1187, 0.1215, 0.0890],
-    "Bayes Mean": [-0.0998, 0.9382, 0.4997, -0.7274],
-    "Bayes Std. Dev": [0.0065, 0.1101, 0.1076, 0.0904]
+    "Bayes Mean": [-0.0998, 0.9382, 0.4997, -0.7274]
 })
 
+
+compare_df["Difference"] = compare_df["Bayes Mean"] - compare_df["MLE Estimate"]
+compare_df["% Difference"] = 100 * compare_df["Difference"] / compare_df["MLE Estimate"]
+
 compare_df
+
 ```
+
+The table above provides a side-by-side comparison of parameter estimates from MLE and Bayesian methods.
+As shown, the differences across all four parameters are very small, generally under 0.005 in magnitude, and the percent differences stay within ±0.6%, suggesting that the posterior means are closely aligned with MLE results.
+This outcome indicates that the priors used in the Bayesian estimation were weakly informative, having minimal regularization effect, and reinforces the consistency of both estimation approaches on this dataset.
+
 ### Comparison of MLE and Bayesian Estimation Results
 
 Both the Maximum Likelihood Estimation (MLE) and Bayesian methods provide consistent insights about the effects of the product features on choice behavior. Below is a comparison of their outputs:
