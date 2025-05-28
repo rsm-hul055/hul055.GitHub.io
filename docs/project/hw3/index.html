@@ -164,9 +164,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#likelihood-for-the-multi-nomial-logit-mnl-model" id="toc-likelihood-for-the-multi-nomial-logit-mnl-model" class="nav-link active" data-scroll-target="#likelihood-for-the-multi-nomial-logit-mnl-model">1. Likelihood for the Multi-nomial Logit (MNL) Model</a></li>
   <li><a href="#simulate-conjoint-data" id="toc-simulate-conjoint-data" class="nav-link" data-scroll-target="#simulate-conjoint-data">2. Simulate Conjoint Data</a></li>
   <li><a href="#preparing-the-data-for-estimation" id="toc-preparing-the-data-for-estimation" class="nav-link" data-scroll-target="#preparing-the-data-for-estimation">3. Preparing the Data for Estimation</a></li>
+  <li><a href="#data-summary" id="toc-data-summary" class="nav-link" data-scroll-target="#data-summary">Data Summary</a></li>
+  <li><a href="#one-hot-encode-categorical-variables" id="toc-one-hot-encode-categorical-variables" class="nav-link" data-scroll-target="#one-hot-encode-categorical-variables">One-hot Encode Categorical Variables</a>
+  <ul class="collapse">
   <li><a href="#estimation-via-maximum-likelihood" id="toc-estimation-via-maximum-likelihood" class="nav-link" data-scroll-target="#estimation-via-maximum-likelihood">4. Estimation via Maximum Likelihood</a></li>
   <li><a href="#estimation-via-bayesian-methods" id="toc-estimation-via-bayesian-methods" class="nav-link" data-scroll-target="#estimation-via-bayesian-methods">5. Estimation via Bayesian Methods</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">6. Discussion</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -243,7 +247,7 @@ u_{ij} = (1 \times Netflix_j) + (0.5 \times Prime_j) + (-0.8*Ads_j) - 0.1\times 
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<div id="d421cfc8" class="cell" data-execution_count="1">
+<div id="fed920a7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./conjoint_data.csv"</span>)</span>
@@ -278,6 +282,70 @@ memory usage: 140.8+ KB</code></pre>
 </div>
 </div>
 </section>
+<section id="data-summary" class="level1">
+<h1>Data Summary</h1>
+<table class="table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 86%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>resp</code></td>
+<td>Respondent ID</td>
+</tr>
+<tr class="even">
+<td><code>task</code></td>
+<td>Task number answered by each respondent (3 options per task)</td>
+</tr>
+<tr class="odd">
+<td><code>choice</code></td>
+<td>Whether the option was chosen (1 = chosen, 0 = not chosen)</td>
+</tr>
+<tr class="even">
+<td><code>brand</code></td>
+<td>Brand (categorical: N, H, P)</td>
+</tr>
+<tr class="odd">
+<td><code>ad</code></td>
+<td>Whether the product has advertising (Yes/No)</td>
+</tr>
+<tr class="even">
+<td><code>price</code></td>
+<td>Product price</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="one-hot-encode-categorical-variables" class="level1">
+<h1>One-hot Encode Categorical Variables</h1>
+<div id="eea654dc" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One-hot encode brand and ad</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df_encoded <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>[<span class="st">"brand"</span>, <span class="st">"ad"</span>], drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if each (resp, task) pair has 3 alternatives</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>group_counts <span class="op">=</span> df_encoded.groupby([<span class="st">'resp'</span>, <span class="st">'task'</span>]).size().value_counts()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview reshaped data</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_encoded.head(), group_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>(   resp  task  choice  price  brand_N  brand_P  ad_Yes
+ 0     1     1       1     28     True    False    True
+ 1     1     1       0     16    False    False    True
+ 2     1     1       0     16    False     True    True
+ 3     1     2       0     32     True    False    True
+ 4     1     2       1     16    False     True    True,
+ 3    1000
+ Name: count, dtype: int64)</code></pre>
+</div>
+</div>
+<p>We one-hot encode the categorical variables brand and ad to prepare them for use in the multinomial logit model, which requires numeric input features. We also confirm that each respondent-task pair includes exactly 3 alternatives, ensuring proper setup for MNL estimation. # The dataset is now encoded and validated, ready for modeling.</p>
 <section id="estimation-via-maximum-likelihood" class="level2">
 <h2 class="anchored" data-anchor-id="estimation-via-maximum-likelihood">4. Estimation via Maximum Likelihood</h2>
 <p><em>todo: Code up the log-likelihood function.</em></p>
@@ -298,6 +366,7 @@ memory usage: 140.8+ KB</code></pre>
 <p><em>todo: At a high level, discuss what change you would need to make in order to simulate data from — and estimate the parameters of — a multi-level (aka random-parameter or hierarchical) model. This is the model we use to analyze “real world” conjoint data.</em></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
