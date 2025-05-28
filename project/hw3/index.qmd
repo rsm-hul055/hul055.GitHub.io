@@ -74,9 +74,32 @@ df.info(), df.head()
 ```
 ::::
 
+# Data Summary
 
+| Column   | Description                                                   |
+|----------|---------------------------------------------------------------|
+| `resp`   | Respondent ID                                                 |
+| `task`   | Task number answered by each respondent (3 options per task)  |
+| `choice` | Whether the option was chosen (1 = chosen, 0 = not chosen)    |
+| `brand`  | Brand (categorical: N, H, P)                                  |
+| `ad`     | Whether the product has advertising (Yes/No)                  |
+| `price`  | Product price                                                 |
 
+# One-hot Encode Categorical Variables
+```{python}
+# One-hot encode brand and ad
+df_encoded = pd.get_dummies(df, columns=["brand", "ad"], drop_first=True)
 
+# Check if each (resp, task) pair has 3 alternatives
+group_counts = df_encoded.groupby(['resp', 'task']).size().value_counts()
+
+# Preview reshaped data
+df_encoded.head(), group_counts
+```
+
+We one-hot encode the categorical variables brand and ad to prepare them for use in the multinomial logit model, which requires numeric input features.
+We also confirm that each respondent-task pair includes exactly 3 alternatives, ensuring proper setup for MNL estimation.
+# The dataset is now encoded and validated, ready for modeling.
 
 ## 4. Estimation via Maximum Likelihood
 
