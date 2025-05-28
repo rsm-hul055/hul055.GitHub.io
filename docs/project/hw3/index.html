@@ -166,17 +166,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#likelihood-for-the-multi-nomial-logit-mnl-model" id="toc-likelihood-for-the-multi-nomial-logit-mnl-model" class="nav-link active" data-scroll-target="#likelihood-for-the-multi-nomial-logit-mnl-model">1. Likelihood for the Multi-nomial Logit (MNL) Model</a></li>
   <li><a href="#simulate-conjoint-data" id="toc-simulate-conjoint-data" class="nav-link" data-scroll-target="#simulate-conjoint-data">2. Simulate Conjoint Data</a></li>
-  <li><a href="#preparing-the-data-for-estimation" id="toc-preparing-the-data-for-estimation" class="nav-link" data-scroll-target="#preparing-the-data-for-estimation">3. Preparing the Data for Estimation</a></li>
+  <li><a href="#preparing-the-data-for-estimation" id="toc-preparing-the-data-for-estimation" class="nav-link" data-scroll-target="#preparing-the-data-for-estimation">3. Preparing the Data for Estimation</a>
+  <ul class="collapse">
   <li><a href="#data-summary" id="toc-data-summary" class="nav-link" data-scroll-target="#data-summary">Data Summary</a></li>
-  <li><a href="#one-hot-encode-categorical-variables" id="toc-one-hot-encode-categorical-variables" class="nav-link" data-scroll-target="#one-hot-encode-categorical-variables">One-hot Encode Categorical Variables</a>
-  <ul class="collapse">
-  <li><a href="#estimation-via-maximum-likelihood" id="toc-estimation-via-maximum-likelihood" class="nav-link" data-scroll-target="#estimation-via-maximum-likelihood">4. Estimation via Maximum Likelihood</a></li>
-  <li><a href="#estimation-via-maximum-likelihood-1" id="toc-estimation-via-maximum-likelihood-1" class="nav-link" data-scroll-target="#estimation-via-maximum-likelihood-1">4. Estimation via Maximum Likelihood</a></li>
+  <li><a href="#one-hot-encode-categorical-variables" id="toc-one-hot-encode-categorical-variables" class="nav-link" data-scroll-target="#one-hot-encode-categorical-variables">One-hot Encode Categorical Variables</a></li>
   </ul></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation:</a>
+  <li><a href="#estimation-via-maximum-likelihood" id="toc-estimation-via-maximum-likelihood" class="nav-link" data-scroll-target="#estimation-via-maximum-likelihood">4. Estimation via Maximum Likelihood</a>
   <ul class="collapse">
-  <li><a href="#estimation-via-bayesian-methods" id="toc-estimation-via-bayesian-methods" class="nav-link" data-scroll-target="#estimation-via-bayesian-methods">5. Estimation via Bayesian Methods</a></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">6. Discussion</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation:</a></li>
+  </ul></li>
+  <li><a href="#estimation-via-bayesian-methods" id="toc-estimation-via-bayesian-methods" class="nav-link" data-scroll-target="#estimation-via-bayesian-methods">5. Estimation via Bayesian Methods</a>
+  <ul class="collapse">
+  <li><a href="#bayesian-posterior-summary-for-the-4-parameters" id="toc-bayesian-posterior-summary-for-the-4-parameters" class="nav-link" data-scroll-target="#bayesian-posterior-summary-for-the-4-parameters">Bayesian Posterior Summary for the 4 Parameters</a></li>
+  <li><a href="#posterior-distributions-and-trace-plots" id="toc-posterior-distributions-and-trace-plots" class="nav-link" data-scroll-target="#posterior-distributions-and-trace-plots">Posterior Distributions and Trace Plots</a></li>
+  <li><a href="#mle-vs-bayesian-estimates" id="toc-mle-vs-bayesian-estimates" class="nav-link" data-scroll-target="#mle-vs-bayesian-estimates">MLE Vs Bayesian Estimates</a></li>
+  <li><a href="#comparison-of-mle-and-bayesian-estimation-results" id="toc-comparison-of-mle-and-bayesian-estimation-results" class="nav-link" data-scroll-target="#comparison-of-mle-and-bayesian-estimation-results">Comparison of MLE and Bayesian Estimation Results</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">6. Discussion</a>
+  <ul class="collapse">
+  <li><a href="#interpreting-the-parameter-estimates" id="toc-interpreting-the-parameter-estimates" class="nav-link" data-scroll-target="#interpreting-the-parameter-estimates">Interpreting the Parameter Estimates</a></li>
+  <li><a href="#toward-a-hierarchical-random-coefficient-model" id="toc-toward-a-hierarchical-random-coefficient-model" class="nav-link" data-scroll-target="#toward-a-hierarchical-random-coefficient-model">Toward a Hierarchical (Random Coefficient) Model</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -254,7 +263,7 @@ u_{ij} = (1 \times Netflix_j) + (0.5 \times Prime_j) + (-0.8*Ads_j) - 0.1\times 
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<div id="c0b7433f" class="cell" data-execution_count="1">
+<div id="2b0fa5dc" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./conjoint_data.csv"</span>)</span>
@@ -288,9 +297,8 @@ memory usage: 140.8+ KB</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="data-summary" class="level1">
-<h1>Data Summary</h1>
+<section id="data-summary" class="level3">
+<h3 class="anchored" data-anchor-id="data-summary">Data Summary</h3>
 <table class="table">
 <colgroup>
 <col style="width: 13%">
@@ -330,9 +338,9 @@ memory usage: 140.8+ KB</code></pre>
 </tbody>
 </table>
 </section>
-<section id="one-hot-encode-categorical-variables" class="level1">
-<h1>One-hot Encode Categorical Variables</h1>
-<div id="fe6938fa" class="cell" data-execution_count="2">
+<section id="one-hot-encode-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="one-hot-encode-categorical-variables">One-hot Encode Categorical Variables</h3>
+<div id="2651f05a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One-hot encode brand and ad</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df_encoded <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>[<span class="st">"brand"</span>, <span class="st">"ad"</span>], drop_first<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -352,12 +360,11 @@ memory usage: 140.8+ KB</code></pre>
  Name: count, dtype: int64)</code></pre>
 </div>
 </div>
-<p>We one-hot encode the categorical variables brand and ad to prepare them for use in the multinomial logit model, which requires numeric input features. We also confirm that each respondent-task pair includes exactly 3 alternatives, ensuring proper setup for MNL estimation. # The dataset is now encoded and validated, ready for modeling.</p>
+<p>We one-hot encode the categorical variables brand and ad to prepare them for use in the multinomial logit model, which requires numeric input features. We also confirm that each respondent-task pair includes exactly 3 alternatives, ensuring proper setup for MNL estimation. ### The dataset is now encoded and validated, ready for modeling.</p>
+</section>
+</section>
 <section id="estimation-via-maximum-likelihood" class="level2">
 <h2 class="anchored" data-anchor-id="estimation-via-maximum-likelihood">4. Estimation via Maximum Likelihood</h2>
-</section>
-<section id="estimation-via-maximum-likelihood-1" class="level2">
-<h2 class="anchored" data-anchor-id="estimation-via-maximum-likelihood-1">4. Estimation via Maximum Likelihood</h2>
 <p>We estimate the parameters of the multinomial logit (MNL) model using maximum likelihood, via <code>scipy.optimize.minimize</code> with the BFGS method.</p>
 <p>The log-likelihood function is constructed over respondent-task-choice groups, treating the utility of each product as a linear function of the features:</p>
 <p><span class="math display">\[
@@ -374,7 +381,7 @@ Maximum Likelihood Estimation Results
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<div id="1a7aea3f" class="cell" data-execution_count="3">
+<div id="a9725db7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -487,26 +494,335 @@ Maximum Likelihood Estimation Results
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="interpretation" class="level1">
-<h1>Interpretation:</h1>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation:</h3>
 <p>Price has a statistically significant negative coefficient, confirming that higher prices reduce the probability of selection.</p>
 <p>Brand_N and Brand_P have positive coefficients, suggesting they are preferred over the reference brand (likely Brand H).</p>
 <p>Advertising (ad_Yes) has a negative coefficient, indicating that advertising may reduce product utility in this context.</p>
+</section>
+</section>
 <section id="estimation-via-bayesian-methods" class="level2">
 <h2 class="anchored" data-anchor-id="estimation-via-bayesian-methods">5. Estimation via Bayesian Methods</h2>
-<p><em>todo: code up a metropolis-hasting MCMC sampler of the posterior distribution. Take 11,000 steps and throw away the first 1,000, retaining the subsequent 10,000.</em></p>
-<p><em>hint: Use N(0,5) priors for the betas on the binary variables, and a N(0,1) prior for the price beta.</em></p>
-<p>_hint: instead of calculating post=lik*prior, you can work in the log-space and calculate log-post = log-lik + log-prior (this should enable you to re-use your log-likelihood function from the MLE section just above)_</p>
-<p><em>hint: King Markov (in the video) use a candidate distribution of a coin flip to decide whether to move left or right among his islands. Unlike King Markov, we have 4 dimensions (because we have 4 betas) and our dimensions are continuous. So, use a multivariate normal distribution to pospose the next location for the algorithm to move to. I recommend a MNV(mu, Sigma) where mu=c(0,0,0,0) and sigma has diagonal values c(0.05, 0.05, 0.05, 0.005) and zeros on the off-diagonal. Since this MVN has no covariances, you can sample each dimension independently (so 4 univariate normals instead of 1 multivariate normal), where the first 3 univariate normals are N(0,0.05) and the last one if N(0,0.005).</em></p>
-<p><em>todo: for at least one of the 4 parameters, show the trace plot of the algorithm, as well as the histogram of the posterior distribution.</em></p>
-<p><em>todo: report the 4 posterior means, standard deviations, and 95% credible intervals and compare them to your results from the Maximum Likelihood approach.</em></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Maximum Likelihood Estimation Results">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Maximum Likelihood Estimation Results
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="b8868378" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Reload and reshape data</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./conjoint_data.csv"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>df_encoded <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>[<span class="st">"brand"</span>, <span class="st">"ad"</span>], drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_encoded[[<span class="st">"price"</span>, <span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>]].values</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_encoded[<span class="st">"choice"</span>].values</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>X_grouped <span class="op">=</span> X.reshape((<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, X.shape[<span class="dv">1</span>]))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>y_grouped <span class="op">=</span> y.reshape((<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>X_grouped <span class="op">=</span> np.asarray(X_grouped, dtype<span class="op">=</span>np.float64)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>y_grouped <span class="op">=</span> np.asarray(y_grouped, dtype<span class="op">=</span>np.float64)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-likelihood function</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_likelihood(beta):</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    utilities <span class="op">=</span> np.dot(X_grouped, beta)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    exp_util <span class="op">=</span> np.exp(utilities)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    probs <span class="op">=</span> exp_util <span class="op">/</span> exp_util.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    chosen_probs <span class="op">=</span> (probs <span class="op">*</span> y_grouped).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.log(chosen_probs <span class="op">+</span> <span class="fl">1e-12</span>).<span class="bu">sum</span>()</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-prior: N(0,1) for price; N(0,5) for others</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_prior(beta):</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> (beta[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> <span class="dv">1</span><span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.<span class="bu">sum</span>(beta[<span class="dv">1</span>:]<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> <span class="dv">5</span><span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Log posterior</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_posterior(beta):</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> log_likelihood(beta) <span class="op">+</span> log_prior(beta)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co"># MCMC settings</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>n_iter <span class="op">=</span> <span class="dv">11000</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>burn_in <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>beta_dim <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> np.zeros((n_iter, beta_dim))</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>current_beta <span class="op">=</span> np.zeros(beta_dim)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>current_log_post <span class="op">=</span> log_posterior(current_beta)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Proposal distribution SDs: [0.005, 0.05, 0.05, 0.05]</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>proposal_sd <span class="op">=</span> np.array([<span class="fl">0.005</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>])</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="co"># MCMC sampling</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    proposal <span class="op">=</span> current_beta <span class="op">+</span> np.random.normal(<span class="dv">0</span>, proposal_sd)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    proposal_log_post <span class="op">=</span> log_posterior(proposal)</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    accept_prob <span class="op">=</span> np.exp(proposal_log_post <span class="op">-</span> current_log_post)</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.random.rand() <span class="op">&lt;</span> accept_prob:</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>        current_beta <span class="op">=</span> proposal</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>        current_log_post <span class="op">=</span> proposal_log_post</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    samples[i, :] <span class="op">=</span> current_beta</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove burn-in</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>samples_post <span class="op">=</span> samples[burn_in:]</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>posterior_df <span class="op">=</span> pd.DataFrame(samples_post, columns<span class="op">=</span>[<span class="st">"price"</span>, <span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>])</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> posterior_df.describe(percentiles<span class="op">=</span>[<span class="fl">0.025</span>, <span class="fl">0.975</span>]).T[[<span class="st">"mean"</span>, <span class="st">"std"</span>]]</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>summary_df[<span class="st">"CI Lower"</span>] <span class="op">=</span> posterior_df.quantile(<span class="fl">0.025</span>)</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>summary_df[<span class="st">"CI Upper"</span>] <span class="op">=</span> posterior_df.quantile(<span class="fl">0.975</span>)</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>summary_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">CI Lower</th>
+<th data-quarto-table-cell-role="th">CI Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">price</td>
+<td>-0.099777</td>
+<td>0.006504</td>
+<td>-0.113024</td>
+<td>-0.087153</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">brand_N</td>
+<td>0.938162</td>
+<td>0.110142</td>
+<td>0.724612</td>
+<td>1.160254</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">brand_P</td>
+<td>0.499689</td>
+<td>0.107640</td>
+<td>0.297368</td>
+<td>0.727317</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ad_Yes</td>
+<td>-0.727447</td>
+<td>0.090435</td>
+<td>-0.902497</td>
+<td>-0.541023</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="bayesian-posterior-summary-for-the-4-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="bayesian-posterior-summary-for-the-4-parameters">Bayesian Posterior Summary for the 4 Parameters</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Posterior Mean</th>
+<th>Std. Dev</th>
+<th>95% Credible Interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>price</code></td>
+<td>-0.0998</td>
+<td>0.0065</td>
+<td>[-0.1130, -0.0872]</td>
+</tr>
+<tr class="even">
+<td><code>brand_N</code></td>
+<td>0.9382</td>
+<td>0.1101</td>
+<td>[0.7246, 1.1603]</td>
+</tr>
+<tr class="odd">
+<td><code>brand_P</code></td>
+<td>0.4997</td>
+<td>0.1076</td>
+<td>[0.2974, 0.7273]</td>
+</tr>
+<tr class="even">
+<td><code>ad_Yes</code></td>
+<td>-0.7274</td>
+<td>0.0904</td>
+<td>[-0.9025, -0.5410]</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="posterior-distributions-and-trace-plots" class="level3">
+<h3 class="anchored" data-anchor-id="posterior-distributions-and-trace-plots">Posterior Distributions and Trace Plots</h3>
+<p>The following figure shows the trace plots and posterior histograms for each of the four parameters estimated via Metropolis-Hastings:</p>
+<div id="86cc2926" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">4</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>param_names <span class="op">=</span> [<span class="st">"price"</span>, <span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, param <span class="kw">in</span> <span class="bu">enumerate</span>(param_names):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    axes[i, <span class="dv">0</span>].plot(posterior_df[param])</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    axes[i, <span class="dv">0</span>].set_title(<span class="ss">f"Trace Plot: </span><span class="sc">{</span>param<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    axes[i, <span class="dv">0</span>].set_xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    axes[i, <span class="dv">0</span>].set_ylabel(<span class="st">"Value"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    axes[i, <span class="dv">1</span>].hist(posterior_df[param], bins<span class="op">=</span><span class="dv">30</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    axes[i, <span class="dv">1</span>].set_title(<span class="ss">f"Posterior Histogram: </span><span class="sc">{</span>param<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    axes[i, <span class="dv">1</span>].set_xlabel(<span class="st">"Value"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    axes[i, <span class="dv">1</span>].set_ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-1.png" width="1140" height="948" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mle-vs-bayesian-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="mle-vs-bayesian-estimates">MLE Vs Bayesian Estimates</h3>
+<div id="49fd3d24" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mle_values <span class="op">=</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"price"</span>: [<span class="op">-</span><span class="fl">0.0998</span>, <span class="fl">0.0065</span>],</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"brand_N"</span>: [<span class="fl">0.9382</span>, <span class="fl">0.1101</span>],</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"brand_P"</span>: [<span class="fl">0.4997</span>, <span class="fl">0.1076</span>],</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ad_Yes"</span>: [<span class="op">-</span><span class="fl">0.7274</span>, <span class="fl">0.0904</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>compare_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Parameter"</span>: [<span class="st">"price"</span>, <span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>],</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MLE Estimate"</span>: [mle_values[p][<span class="dv">0</span>] <span class="cf">for</span> p <span class="kw">in</span> mle_values],</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MLE Std. Error"</span>: [mle_values[p][<span class="dv">1</span>] <span class="cf">for</span> p <span class="kw">in</span> mle_values],</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bayes Mean"</span>: summary_df[<span class="st">"mean"</span>].values,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bayes Std. Dev"</span>: summary_df[<span class="st">"std"</span>].values</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>compare_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Parameter</th>
+<th data-quarto-table-cell-role="th">MLE Estimate</th>
+<th data-quarto-table-cell-role="th">MLE Std. Error</th>
+<th data-quarto-table-cell-role="th">Bayes Mean</th>
+<th data-quarto-table-cell-role="th">Bayes Std. Dev</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>price</td>
+<td>-0.0998</td>
+<td>0.0065</td>
+<td>-0.099777</td>
+<td>0.006504</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>brand_N</td>
+<td>0.9382</td>
+<td>0.1101</td>
+<td>0.938162</td>
+<td>0.110142</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>brand_P</td>
+<td>0.4997</td>
+<td>0.1076</td>
+<td>0.499689</td>
+<td>0.107640</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>ad_Yes</td>
+<td>-0.7274</td>
+<td>0.0904</td>
+<td>-0.727447</td>
+<td>0.090435</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="comparison-of-mle-and-bayesian-estimation-results" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-of-mle-and-bayesian-estimation-results">Comparison of MLE and Bayesian Estimation Results</h3>
+<p>Both the Maximum Likelihood Estimation (MLE) and Bayesian methods provide consistent insights about the effects of the product features on choice behavior. Below is a comparison of their outputs:</p>
+<ul>
+<li><p><strong>Parameter Estimates</strong>: The posterior means from the Bayesian estimation are very close to the MLE point estimates across all four parameters. For example, the coefficient on <code>price</code> is approximately -0.0998 in both methods, indicating a consistent negative effect of price on choice probability.</p></li>
+<li><p><strong>Uncertainty Quantification</strong>:</p>
+<ul>
+<li>MLE provides <strong>standard errors</strong> and <strong>95% confidence intervals</strong> based on the inverse Hessian.</li>
+<li>Bayesian estimation yields <strong>posterior standard deviations</strong> and <strong>95% credible intervals</strong> from the posterior sample distribution.</li>
+<li>Notably, the width and range of the Bayesian credible intervals are slightly more flexible, especially under weakly informative priors.</li>
+</ul></li>
+<li><p><strong>Regularization Effect of Priors</strong>:</p>
+<ul>
+<li>The Bayesian method includes prior distributions (<code>N(0,1)</code> for <code>price</code> and <code>N(0,5)</code> for binary variables), which can slightly “shrink” estimates compared to MLE, especially in small samples. However, in this case, the priors are relatively weak, so their influence is modest.</li>
+</ul></li>
+<li><p><strong>Interpretability</strong>:</p>
+<ul>
+<li>MLE intervals are interpreted in terms of repeated sampling (frequentist), whereas Bayesian intervals can be directly interpreted as probabilities (e.g., “There is a 95% chance the parameter lies in this interval”).</li>
+</ul></li>
+</ul>
+<p>In conclusion, both estimation techniques yield very similar results in this well-specified, clean dataset. The Bayesian framework provides a richer view by revealing the full posterior distribution, while MLE is computationally faster and commonly used for large datasets.</p>
+</section>
 </section>
 <section id="discussion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion">6. Discussion</h2>
-<p><em>todo: Suppose you did not simulate the data. What do you observe about the parameter estimates? What does <span class="math inline">\(\beta_\text{Netflix} &gt; \beta_\text{Prime}\)</span> mean? Does it make sense that <span class="math inline">\(\beta_\text{price}\)</span> is negative?</em></p>
-<p><em>todo: At a high level, discuss what change you would need to make in order to simulate data from — and estimate the parameters of — a multi-level (aka random-parameter or hierarchical) model. This is the model we use to analyze “real world” conjoint data.</em></p>
+<section id="interpreting-the-parameter-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-the-parameter-estimates">Interpreting the Parameter Estimates</h3>
+<p>Even though we did not simulate the data ourselves, we can still interpret the meaning of the estimated parameters:</p>
+<ul>
+<li><p>The <strong>negative coefficient on price</strong> (<code>β_price &lt; 0</code>) makes intuitive sense: as price increases, the utility of a product decreases, making consumers less likely to choose it. This aligns with standard economic theory.</p></li>
+<li><p>The fact that <strong>β_Netflix &gt; β_Prime</strong> (i.e., the coefficient on the <code>brand_N</code> dummy is larger than that on <code>brand_P</code>) suggests that, on average, respondents prefer the Netflix-branded product over the Prime-branded one, <em>all else equal</em>. This may be due to brand loyalty, perceived quality, or other unobserved factors favoring Netflix.</p></li>
+<li><p>Similarly, if <strong>brand_Hulu is the omitted category</strong>, then both <code>brand_N</code> and <code>brand_P</code> are being compared relative to Hulu. So we can infer a ranking of brand preferences from the sign and magnitude of the coefficients.</p></li>
+</ul>
+</section>
+<section id="toward-a-hierarchical-random-coefficient-model" class="level3">
+<h3 class="anchored" data-anchor-id="toward-a-hierarchical-random-coefficient-model">Toward a Hierarchical (Random Coefficient) Model</h3>
+<p>The current multinomial logit (MNL) model assumes that <strong>all consumers share the same coefficients</strong> (i.e., preferences). However, in the real world, consumers are heterogeneous — for example, some are more price-sensitive than others, or may strongly prefer one brand over another.</p>
+<p>To capture this <strong>individual-level variation</strong>, we can move to a <strong>hierarchical Bayesian model</strong> (also called a mixed logit or random coefficient model):</p>
+<ul>
+<li><p><strong>Instead of estimating a single β vector</strong>, we assume each consumer <code>i</code> has their own vector <code>β_i</code>, drawn from a common population distribution (e.g., multivariate normal).</p></li>
+<li><p>The model becomes two-layered:</p>
+<ul>
+<li><strong>Level 1 (individual):</strong> choice probabilities are modeled as in the MNL, but using <code>β_i</code>.</li>
+<li><strong>Level 2 (population):</strong> we place priors on the distribution of <code>β_i</code> (e.g., mean and covariance matrix), and estimate those hyperparameters from the data.</li>
+</ul></li>
+<li><p>Technically, this would require:</p>
+<ul>
+<li>Modifying the likelihood function to sum/integrate over the distribution of random coefficients,</li>
+<li>Using more advanced sampling methods like Gibbs sampling or Hamiltonian Monte Carlo to perform posterior inference.</li>
+</ul></li>
+</ul>
+<p>Such models are widely used in practice, especially in marketing research, to generate <strong>individual-level predictions</strong>, <strong>segment consumers</strong>, and <strong>simulate responses to new product designs</strong>.</p>
 
 
 </section>
