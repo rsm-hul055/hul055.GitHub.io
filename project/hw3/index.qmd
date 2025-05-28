@@ -2,6 +2,8 @@
 title: "Multinomial Logit Model"
 author: "Hui Liu"
 date: today
+execute:
+  python: /opt/conda/bin/python3
 ---
 
 
