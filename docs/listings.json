@@ -6,31 +6,11 @@
     ]
   },
   {
-    "listing": "/projects.html",
-    "items": [
-      "/project/hw1/index.html",
-      "/project/hw2/index.html"
-    ]
-  },
-  {
-    "listing": "/blog.html",
-    "items": [
-      "/about.html",
-      "/resume.html",
-      "/index.html",
-      "/project/hw2/index.html",
-      "/project/hw1/index.html",
-      "/projects.html",
-      "/blog/first-blog/index.html"
-    ]
-  },
-  {
     "listing": "/project/projects.html",
     "items": [
       "/project/hw1/index.html",
       "/project/hw3/index.html",
-      "/project/hw2/index.html",
-      "/project/hw1/hw1.html"
+      "/project/hw2/index.html"
     ]
   }
 ]

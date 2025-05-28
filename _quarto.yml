@@ -17,6 +17,7 @@ website:
       - href: project/projects.qmd
         text: Homework
 
+  
 format:
   html:
     theme: cosmo
