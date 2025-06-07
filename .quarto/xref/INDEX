@@ -64,5 +64,8 @@
   },
   "project/hw4/supervised.qmd": {
     "supervised.html": "8740f223"
+  },
+  "hw4_questions.qmd": {
+    "hw4_questions.html": "dc8bd1d2"
   }
 }
