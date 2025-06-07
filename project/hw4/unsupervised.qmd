@@ -149,6 +149,8 @@ To determine the optimal number of clusters (K), we computed:
 
 Both metrics suggested **K = 3** as the best choice:
 
+![K-Means evaluation](kmeans_evaluation_vertical.png)
+
 ::: {.callout-note collapse=true title="Evaluate Cluster Quality (WCSS & Silhouette)"}
 ```{python echo=False}
 
@@ -193,6 +195,8 @@ plt.show()
 
 To validate our custom implementation, we compared the clustering result with scikit-learn's built-in KMeans function.
 The cluster assignments and centroid locations are nearly identical, confirming the correctness of our algorithm.
+
+![K-Means Sklearn](kmeans_sklearn_clean.png)
 
 ::: {.callout-note collapse=true title="Scikit-learn KMeans Comparison"}
 ```{python echo=False}
