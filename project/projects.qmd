@@ -2,6 +2,11 @@
 title: "My Homework"
 
 listing:
-  contents: .
+  contents:
+    - hw1/
+    - hw2/
+    - hw3/
+    - hw4/
+  sort: "date desc"
   type: grid
 ---
