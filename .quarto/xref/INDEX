@@ -58,5 +58,11 @@
   },
   "hw1.ipynb": {
     "hw1.html": "7065fbee"
+  },
+  "project/hw4/unsupervised.qmd": {
+    "unsupervised.html": "3e2125db"
+  },
+  "project/hw4/supervised.qmd": {
+    "supervised.html": "8740f223"
   }
 }

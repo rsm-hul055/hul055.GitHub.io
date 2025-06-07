@@ -9,8 +9,10 @@
     "listing": "/project/projects.html",
     "items": [
       "/project/hw1/index.html",
+      "/project/hw4/supervised.html",
       "/project/hw3/index.html",
-      "/project/hw2/index.html"
+      "/project/hw2/index.html",
+      "/project/hw4/unsupervised.html"
     ]
   }
 ]

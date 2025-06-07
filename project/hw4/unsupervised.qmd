@@ -1,0 +1,10 @@
+---
+title: "HW4 Part 1: Unsupervised Learning for Customer Segmentation"
+subtitle: "Using K-Means to Discover Hidden Patterns in the Penguin Dataset"
+author: "Hui Liu"
+date: today
+categories: [homework]
+format: html
+jupyter: python3
+callout-appearance: minimal
+---
