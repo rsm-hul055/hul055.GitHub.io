@@ -1,5 +1,5 @@
 ---
-title: "HW4 Part 2: Supervised Learning for Predictive Modeling"
+title: "HW4 Part 2 (2a): Supervised Learning for Predictive Modeling"
 subtitle: "Using K-Nearest Neighbors to Predict Customer Satisfaction"
 author: "Hui Liu"
 date: today
@@ -7,6 +7,9 @@ format: html
 jupyter: python3
 callout-appearance: minimal
 ---
+## 2a. K Nearest Neighbors
+
+This exercise implements the K-Nearest Neighbors algorithm from scratch and evaluates its performance on a synthetic classification task with a nonlinear boundary.
 
 
 ::: {.callout-note collapse=true title="Generate Training Data and Test Data"}
@@ -47,6 +50,19 @@ test_data = pd.DataFrame({
 ```
 :::
 
+### Visualizing the Training Data
+
+We generate a dataset of 100 points where each observation has two features (`x1`, `x2`).  
+The class label `y` is determined by whether the point lies above or below the nonlinear decision boundary:
+
+\[
+x_2 = \sin(4x_1) + x_1
+\]
+
+The plot below illustrates the decision boundary and class distribution:
+
+![Synthetic Training Data](knn_train_plot.png)
+
 
 ::: {.callout-note collapse=true title="Plot training data and wiggly decision boundary"}
 
@@ -72,16 +88,16 @@ train_plot_path
 :::
 
 
-### Evaluating K for KNN
+### Implementing and Evaluating KNN
 
-We ran our custom KNN implementation for values of \( k \) ranging from 1 to 30.  
-For each \( k \), we predicted the test set and recorded the accuracy.
+We implemented KNN from scratch. For each point in the test set (also of size 100), we computed its K nearest neighbors in the training set and classified it by majority vote.
 
-The plot below shows how accuracy varies with \( k \):
+We evaluated model accuracy for \( k = 1 \) through \( k = 30 \), and the results are summarized below:
 
-![KNN Accuracy Curve](knn_accuracy_curve.png)
+![KNN Accuracy Curve](knn_accuracy_curve_labeled.png)
 
-As shown, the optimal value of \( k \) appears to be **K = X**, where accuracy peaks.
+As shown, the accuracy peaks at **K = 1** with an accuracy of **92%**.  
+This suggests that in this setting, the 1-nearest neighbor already captures the complex boundary quite well.
 
 ::: {.callout-note collapse=true title="Implement custom KNN classifier"}
 ```{python echo=False}
@@ -98,35 +114,57 @@ def knn_predict(X_train, y_train, X_test, k=3):
         y_pred.append(majority_vote)
     return np.array(y_pred)
 
-# Prepare train and test arrays
+# Run accuracy for k=1 to 30
 X_train = train_data[["x1", "x2"]].values
 y_train = train_data["y"].values
 X_test = test_data[["x1", "x2"]].values
 y_test = test_data["y"].values
 
-# Evaluate accuracy for k = 1 to 30
 accuracies = []
-k_values = list(range(1, 31))
-
-for k in k_values:
+for k in range(1, 31):
     preds = knn_predict(X_train, y_train, X_test, k=k)
     acc = (preds == y_test).mean()
     accuracies.append(acc)
 
-# Plot accuracy vs K
+# Plot
+optimal_k = np.argmax(accuracies) + 1
+optimal_acc = accuracies[optimal_k - 1]
+
 plt.figure(figsize=(8, 5))
-plt.plot(k_values, accuracies, marker='o')
+plt.plot(range(1, 31), accuracies, marker='o')
+plt.axvline(optimal_k, color='red', linestyle='--', label=f'Optimal k = {optimal_k}')
+plt.scatter(optimal_k, optimal_acc, color='red')
 plt.title("KNN Accuracy on Test Set")
 plt.xlabel("Number of Neighbors (k)")
 plt.ylabel("Accuracy")
+plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("./knn_accuracy_curve.png")
+plt.savefig("knn_accuracy_curve_labeled.png")
 plt.close()
-
-"/mnt/data/knn_accuracy_curve.png"
-
 
 ```
 :::
 
+
+### Final Notes
+
+Unlike tree-based models or regression, K-Nearest Neighbors does not produce variable importance metrics.  
+Because it makes decisions purely based on distance in feature space, both features (`x1`, `x2`) contribute jointly to the classification task.
+
+If one wants to evaluate feature contributions explicitly, alternative models like random forests, logistic regression, or SHAP-enhanced models may be better suited.
+
+::: {.callout-note collapse=true title="KNN Algorithm Parameters"}
+The table below summarizes key parameters used in our custom KNN implementation:
+
+| Parameter              | Value                             |
+|------------------------|-----------------------------------|
+| Distance Metric        | Euclidean                         |
+| Training Set Size      | 100                               |
+| Test Set Size          | 100                               |
+| Feature Dimensions     | 2                                 |
+| K Range Tested         | 1 to 30                           |
+| Optimal K              | 1                                 |
+| Decision Boundary      | \( x_2 = \sin(4x_1) + x_1 \)      |
+| Classification Method  | Majority vote (mode of k nearest) |
+:::

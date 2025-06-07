@@ -9,7 +9,7 @@
 <meta name="author" content="Hui Liu">
 <meta name="dcterms.date" content="2025-06-07">
 
-<title>HuiL’s Website - HW4 Part 2: Supervised Learning for Predictive Modeling</title>
+<title>HuiL’s Website - HW4 Part 2 (2a): Supervised Learning for Predictive Modeling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -159,7 +159,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#evaluating-k-for-knn" id="toc-evaluating-k-for-knn" class="nav-link active" data-scroll-target="#evaluating-k-for-knn">Evaluating K for KNN</a></li>
+  <li><a href="#a.-k-nearest-neighbors" id="toc-a.-k-nearest-neighbors" class="nav-link active" data-scroll-target="#a.-k-nearest-neighbors">2a. K Nearest Neighbors</a>
+  <ul class="collapse">
+  <li><a href="#visualizing-the-training-data" id="toc-visualizing-the-training-data" class="nav-link" data-scroll-target="#visualizing-the-training-data">Visualizing the Training Data</a></li>
+  <li><a href="#implementing-and-evaluating-knn" id="toc-implementing-and-evaluating-knn" class="nav-link" data-scroll-target="#implementing-and-evaluating-knn">Implementing and Evaluating KNN</a></li>
+  <li><a href="#final-notes" id="toc-final-notes" class="nav-link" data-scroll-target="#final-notes">Final Notes</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -168,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">HW4 Part 2: Supervised Learning for Predictive Modeling</h1>
+<h1 class="title">HW4 Part 2 (2a): Supervised Learning for Predictive Modeling</h1>
 <p class="subtitle lead">Using K-Nearest Neighbors to Predict Customer Satisfaction</p>
 </div>
 
@@ -198,6 +203,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="a.-k-nearest-neighbors" class="level2">
+<h2 class="anchored" data-anchor-id="a.-k-nearest-neighbors">2a. K Nearest Neighbors</h2>
+<p>This exercise implements the K-Nearest Neighbors algorithm from scratch and evaluates its performance on a synthetic classification task with a nonlinear boundary.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Generate Training Data and Test Data">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -210,7 +218,7 @@ Generate Training Data and Test Data
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="27ae1ea2" class="cell" data-execution_count="1">
+<div id="106d913c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-execute after kernel reset</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -247,6 +255,18 @@ Generate Training Data and Test Data
 </div>
 </div>
 </div>
+<section id="visualizing-the-training-data" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-the-training-data">Visualizing the Training Data</h3>
+<p>We generate a dataset of 100 points where each observation has two features (<code>x1</code>, <code>x2</code>).<br>
+The class label <code>y</code> is determined by whether the point lies above or below the nonlinear decision boundary:</p>
+<p>[ x_2 = (4x_1) + x_1 ]</p>
+<p>The plot below illustrates the decision boundary and class distribution:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="knn_train_plot.png" class="img-fluid figure-img"></p>
+<figcaption>Synthetic Training Data</figcaption>
+</figure>
+</div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Plot training data and wiggly decision boundary">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -259,7 +279,7 @@ Plot training data and wiggly decision boundary
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="3cef4d1f" class="cell" data-execution_count="2">
+<div id="44936c29" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(x1_train, x2_train, c<span class="op">=</span>y_train, cmap<span class="op">=</span><span class="st">'coolwarm'</span>, s<span class="op">=</span><span class="dv">40</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x_curve <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">300</span>)</span>
@@ -282,18 +302,19 @@ Plot training data and wiggly decision boundary
 </div>
 </div>
 </div>
-<section id="evaluating-k-for-knn" class="level3">
-<h3 class="anchored" data-anchor-id="evaluating-k-for-knn">Evaluating K for KNN</h3>
-<p>We ran our custom KNN implementation for values of ( k ) ranging from 1 to 30.<br>
-For each ( k ), we predicted the test set and recorded the accuracy.</p>
-<p>The plot below shows how accuracy varies with ( k ):</p>
+</section>
+<section id="implementing-and-evaluating-knn" class="level3">
+<h3 class="anchored" data-anchor-id="implementing-and-evaluating-knn">Implementing and Evaluating KNN</h3>
+<p>We implemented KNN from scratch. For each point in the test set (also of size 100), we computed its K nearest neighbors in the training set and classified it by majority vote.</p>
+<p>We evaluated model accuracy for ( k = 1 ) through ( k = 30 ), and the results are summarized below:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="knn_accuracy_curve.png" class="img-fluid figure-img"></p>
+<p><img src="knn_accuracy_curve_labeled.png" class="img-fluid figure-img"></p>
 <figcaption>KNN Accuracy Curve</figcaption>
 </figure>
 </div>
-<p>As shown, the optimal value of ( k ) appears to be <strong>K = X</strong>, where accuracy peaks.</p>
+<p>As shown, the accuracy peaks at <strong>K = 1</strong> with an accuracy of <strong>92%</strong>.<br>
+This suggests that in this setting, the 1-nearest neighbor already captures the complex boundary quite well.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Implement custom KNN classifier">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -306,7 +327,7 @@ Implement custom KNN classifier
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="72ef37d9" class="cell" data-execution_count="3">
+<div id="d647ee93" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> distance</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> knn_predict(X_train, y_train, X_test, k<span class="op">=</span><span class="dv">3</span>):</span>
@@ -319,42 +340,105 @@ Implement custom KNN classifier
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        y_pred.append(majority_vote)</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(y_pred)</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare train and test arrays</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Run accuracy for k=1 to 30</span></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train_data[[<span class="st">"x1"</span>, <span class="st">"x2"</span>]].values</span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train_data[<span class="st">"y"</span>].values</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test_data[[<span class="st">"x1"</span>, <span class="st">"x2"</span>]].values</span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test_data[<span class="st">"y"</span>].values</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate accuracy for k = 1 to 30</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>accuracies <span class="op">=</span> []</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>k_values <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">31</span>))</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> k_values:</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    preds <span class="op">=</span> knn_predict(X_train, y_train, X_test, k<span class="op">=</span>k)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    acc <span class="op">=</span> (preds <span class="op">==</span> y_test).mean()</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    accuracies.append(acc)</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot accuracy vs K</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>accuracies <span class="op">=</span> []</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">31</span>):</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    preds <span class="op">=</span> knn_predict(X_train, y_train, X_test, k<span class="op">=</span>k)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    acc <span class="op">=</span> (preds <span class="op">==</span> y_test).mean()</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    accuracies.append(acc)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>optimal_k <span class="op">=</span> np.argmax(accuracies) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>optimal_acc <span class="op">=</span> accuracies[optimal_k <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>plt.plot(k_values, accuracies, marker<span class="op">=</span><span class="st">'o'</span>)</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"KNN Accuracy on Test Set"</span>)</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Neighbors (k)"</span>)</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Accuracy"</span>)</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"./knn_accuracy_curve.png"</span>)</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>plt.close()</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">"/mnt/data/knn_accuracy_curve.png"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>'/mnt/data/knn_accuracy_curve.png'</code></pre>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">31</span>), accuracies, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>plt.axvline(optimal_k, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'Optimal k = </span><span class="sc">{</span>optimal_k<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>plt.scatter(optimal_k, optimal_acc, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"KNN Accuracy on Test Set"</span>)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Neighbors (k)"</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Accuracy"</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"knn_accuracy_curve_labeled.png"</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+</div>
+</div>
+</section>
+<section id="final-notes" class="level3">
+<h3 class="anchored" data-anchor-id="final-notes">Final Notes</h3>
+<p>Unlike tree-based models or regression, K-Nearest Neighbors does not produce variable importance metrics.<br>
+Because it makes decisions purely based on distance in feature space, both features (<code>x1</code>, <code>x2</code>) contribute jointly to the classification task.</p>
+<p>If one wants to evaluate feature contributions explicitly, alternative models like random forests, logistic regression, or SHAP-enhanced models may be better suited.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="KNN Algorithm Parameters">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+KNN Algorithm Parameters
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The table below summarizes key parameters used in our custom KNN implementation:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Distance Metric</td>
+<td>Euclidean</td>
+</tr>
+<tr class="even">
+<td>Training Set Size</td>
+<td>100</td>
+</tr>
+<tr class="odd">
+<td>Test Set Size</td>
+<td>100</td>
+</tr>
+<tr class="even">
+<td>Feature Dimensions</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>K Range Tested</td>
+<td>1 to 30</td>
+</tr>
+<tr class="even">
+<td>Optimal K</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Decision Boundary</td>
+<td>( x_2 = (4x_1) + x_1 )</td>
+</tr>
+<tr class="even">
+<td>Classification Method</td>
+<td>Majority vote (mode of k nearest)</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

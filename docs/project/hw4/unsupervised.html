@@ -9,7 +9,7 @@
 <meta name="author" content="Hui Liu">
 <meta name="dcterms.date" content="2025-06-07">
 
-<title>HuiL’s Website - HW4 Part 1: Unsupervised Learning for Customer Segmentation</title>
+<title>HuiL’s Website - HW4 Part 1 (1a): Unsupervised Learning for Customer Segmentation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -178,7 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">HW4 Part 1: Unsupervised Learning for Customer Segmentation</h1>
+<h1 class="title">HW4 Part 1 (1a): Unsupervised Learning for Customer Segmentation</h1>
 <p class="subtitle lead">Clustering with Bill and Flipper Length to Segment Penguins</p>
 </div>
 
@@ -231,7 +231,7 @@ Read Data
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="d726d1e7" class="cell" data-execution_count="1">
+<div id="aaf9dead" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -350,7 +350,7 @@ Custom K-Means Algorithm Implementation
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="8869919b" class="cell" data-execution_count="2">
+<div id="fe4c3dbf" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -431,7 +431,7 @@ Create GIF Animation with imageio
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="fe9b5782" class="cell" data-execution_count="3">
+<div id="e0c66845" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> imageio</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate GIF from saved frames</span></span>
@@ -446,7 +446,7 @@ Create GIF Animation with imageio
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>gif_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_224466/3049498779.py:10: DeprecationWarning:
+<pre><code>/tmp/ipykernel_243195/3049498779.py:10: DeprecationWarning:
 
 Starting with ImageIO v3 the behavior of this function will switch to that of iio.v3.imread. To keep the current behavior (and make this warning disappear) use `import imageio.v2 as imageio` or call `imageio.v2.imread` directly.
 </code></pre>
@@ -485,7 +485,7 @@ Evaluate Cluster Quality (WCSS &amp; Silhouette)
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="c6cc64b4" class="cell" data-execution_count="4">
+<div id="6d9a8c80" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -548,7 +548,7 @@ Scikit-learn KMeans Comparison
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="3aa08ea1" class="cell" data-execution_count="5">
+<div id="fcbffd03" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit KMeans from scikit-learn for K=3</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>kmeans_sklearn <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">42</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>labels_sklearn <span class="op">=</span> kmeans_sklearn.fit_predict(X)</span>
@@ -579,6 +579,64 @@ Scikit-learn KMeans Comparison
 <section id="conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
 <p>Our custom K-Means algorithm successfully clustered penguins into three meaningful groups using only bill length and flipper length. Evaluation metrics and visual inspection both suggest that K=3 provides a good balance of cohesion and separation. The results also validate well against the standard scikit-learn implementation.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="K-Means Algorithm Parameters">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+K-Means Algorithm Parameters
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The following table summarizes key parameters used in our custom K-Means implementation:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Distance Metric</td>
+<td>Euclidean</td>
+</tr>
+<tr class="even">
+<td>Feature Variables</td>
+<td><code>bill_length_mm</code>, <code>flipper_length_mm</code></td>
+</tr>
+<tr class="odd">
+<td>Number of Clusters (K)</td>
+<td>3 (chosen based on WCSS and silhouette)</td>
+</tr>
+<tr class="even">
+<td>Initialization</td>
+<td>Random selection of 3 data points</td>
+</tr>
+<tr class="odd">
+<td>Max Iterations</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>Convergence Criterion</td>
+<td><code>np.allclose()</code> between centroids</td>
+</tr>
+<tr class="odd">
+<td>Evaluation Metrics</td>
+<td>WCSS, Silhouette Score</td>
+</tr>
+<tr class="even">
+<td>Visualization</td>
+<td>GIF animation of centroid movement</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 
 
 </section>

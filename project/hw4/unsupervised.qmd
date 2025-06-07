@@ -1,5 +1,5 @@
 ---
-title: "HW4 Part 1: Unsupervised Learning for Customer Segmentation"
+title: "HW4 Part 1 (1a): Unsupervised Learning for Customer Segmentation"
 subtitle: "Clustering with Bill and Flipper Length to Segment Penguins"
 author: "Hui Liu"
 date: today
@@ -225,3 +225,19 @@ plt.show()
 ### Conclusion
 
 Our custom K-Means algorithm successfully clustered penguins into three meaningful groups using only bill length and flipper length. Evaluation metrics and visual inspection both suggest that K=3 provides a good balance of cohesion and separation. The results also validate well against the standard scikit-learn implementation.
+
+
+::: {.callout-note collapse=true title="K-Means Algorithm Parameters"}
+The following table summarizes key parameters used in our custom K-Means implementation:
+
+| Parameter                | Value                                  |
+|--------------------------|----------------------------------------|
+| Distance Metric          | Euclidean                              |
+| Feature Variables        | `bill_length_mm`, `flipper_length_mm`  |
+| Number of Clusters (K)   | 3 (chosen based on WCSS and silhouette)|
+| Initialization           | Random selection of 3 data points      |
+| Max Iterations           | 10                                     |
+| Convergence Criterion    | `np.allclose()` between centroids      |
+| Evaluation Metrics       | WCSS, Silhouette Score                 |
+| Visualization            | GIF animation of centroid movement     |
+:::
