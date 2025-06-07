@@ -19,6 +19,7 @@ We used the Palmer Penguins dataset and selected two numerical features:
 - `flipper_length_mm`
 
 After removing missing values, we applied our custom implementation of the K-Means clustering algorithm.
+
 ::: {.callout-note collapse=true title="Read Data"}
 ```{python echo=False}
 import pandas as pd
@@ -43,7 +44,8 @@ We implemented the K-Means algorithm from scratch, using Euclidean distance for 
 
 Below is a **GIF animation** of the clustering process:
 
-![Evaluation Metrics](kmeans_evaluation.png)
+![Evaluation Metrics](evaluation_plot.png)
+
 ::: {.callout-note collapse=true title="Custom K-Means Algorithm Implementation"}
 ```{python echo=False}
 import numpy as np
@@ -137,8 +139,6 @@ gif_path
 :::
 
 
-
-
 ::: {.callout-note collapse=true title="Evaluate Cluster Quality (WCSS & Silhouette)"}
 ```{python echo=False}
 
@@ -174,7 +174,6 @@ plt.show()
 
 
 
-
 ```
 :::
 
@@ -188,7 +187,7 @@ To determine the optimal number of clusters (K), we computed:
 
 Both metrics suggested **K = 3** as the best choice:
 
-![Sklearn Clustering](kmeans_sklearn.png)
+![Sklearn Clustering](sklearn_kmeans.png)
 
 ::: {.callout-note collapse=true title="Scikit-learn KMeans Comparison"}
 ```{python echo=False}
