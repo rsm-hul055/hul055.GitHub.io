@@ -7,3 +7,126 @@ format: html
 jupyter: python3
 callout-appearance: minimal
 ---
+
+
+::: {.callout-note collapse=true title="Generate Training Data and Test Data"}
+```{python echo=False}
+
+# Re-execute after kernel reset
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Generate training data
+np.random.seed(42)
+n_train = 100
+x1_train = np.random.uniform(-3, 3, n_train)
+x2_train = np.random.uniform(-3, 3, n_train)
+boundary_train = np.sin(4 * x1_train) + x1_train
+y_train = (x2_train > boundary_train).astype(int)
+
+train_data = pd.DataFrame({
+    "x1": x1_train,
+    "x2": x2_train,
+    "y": y_train
+})
+
+# Generate test data
+np.random.seed(99)
+n_test = 100
+x1_test = np.random.uniform(-3, 3, n_test)
+x2_test = np.random.uniform(-3, 3, n_test)
+boundary_test = np.sin(4 * x1_test) + x1_test
+y_test = (x2_test > boundary_test).astype(int)
+
+test_data = pd.DataFrame({
+    "x1": x1_test,
+    "x2": x2_test,
+    "y": y_test
+})
+```
+:::
+
+
+::: {.callout-note collapse=true title="Plot training data and wiggly decision boundary"}
+
+```{python echo=False}
+
+plt.figure(figsize=(6, 5))
+plt.scatter(x1_train, x2_train, c=y_train, cmap='coolwarm', s=40, edgecolor='k')
+x_curve = np.linspace(-3, 3, 300)
+y_curve = np.sin(4 * x_curve) + x_curve
+plt.plot(x_curve, y_curve, color='black', linestyle='--', label='Decision Boundary')
+plt.xlabel("x1")
+plt.ylabel("x2")
+plt.title("Synthetic Training Data with Wiggly Boundary")
+plt.legend()
+plt.tight_layout()
+train_plot_path = "./knn_train_plot.png"
+plt.savefig(train_plot_path)
+plt.close()
+
+train_plot_path
+
+```
+:::
+
+
+### Evaluating K for KNN
+
+We ran our custom KNN implementation for values of \( k \) ranging from 1 to 30.  
+For each \( k \), we predicted the test set and recorded the accuracy.
+
+The plot below shows how accuracy varies with \( k \):
+
+![KNN Accuracy Curve](knn_accuracy_curve.png)
+
+As shown, the optimal value of \( k \) appears to be **K = X**, where accuracy peaks.
+
+::: {.callout-note collapse=true title="Implement custom KNN classifier"}
+```{python echo=False}
+
+from scipy.spatial import distance
+
+def knn_predict(X_train, y_train, X_test, k=3):
+    y_pred = []
+    for test_point in X_test:
+        dists = distance.cdist([test_point], X_train)[0]
+        nearest_indices = np.argsort(dists)[:k]
+        nearest_labels = y_train[nearest_indices]
+        majority_vote = np.argmax(np.bincount(nearest_labels))
+        y_pred.append(majority_vote)
+    return np.array(y_pred)
+
+# Prepare train and test arrays
+X_train = train_data[["x1", "x2"]].values
+y_train = train_data["y"].values
+X_test = test_data[["x1", "x2"]].values
+y_test = test_data["y"].values
+
+# Evaluate accuracy for k = 1 to 30
+accuracies = []
+k_values = list(range(1, 31))
+
+for k in k_values:
+    preds = knn_predict(X_train, y_train, X_test, k=k)
+    acc = (preds == y_test).mean()
+    accuracies.append(acc)
+
+# Plot accuracy vs K
+plt.figure(figsize=(8, 5))
+plt.plot(k_values, accuracies, marker='o')
+plt.title("KNN Accuracy on Test Set")
+plt.xlabel("Number of Neighbors (k)")
+plt.ylabel("Accuracy")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("./knn_accuracy_curve.png")
+plt.close()
+
+"/mnt/data/knn_accuracy_curve.png"
+
+
+```
+:::
+

@@ -147,7 +147,7 @@ To determine the optimal number of clusters (K), we computed:
 - **Within-Cluster Sum of Squares (WCSS)**
 - **Silhouette Score**
 
-Both metrics suggested **K = 3** as the best choice:
+While K=2 has the highest Silhouette score, K=3 provides a clearer elbow point in the WCSS curve and still maintains a strong Silhouette score, making it a better overall choice for balancing intra-cluster cohesion and inter-cluster separation. So, both metrics suggested **K = 3** as the best choice:
 
 ![K-Means evaluation](kmeans_evaluation_vertical.png)
 
