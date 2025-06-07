@@ -15,6 +15,7 @@ This analysis demonstrates how unsupervised learning can be used to segment cust
 ### Data Preparation
 
 We used the Palmer Penguins dataset and selected two numerical features:
+
 - `bill_length_mm`
 - `flipper_length_mm`
 
@@ -40,11 +41,12 @@ df_clean.head()
 
 ### Custom K-Means Implementation
 
-We implemented the K-Means algorithm from scratch, using Euclidean distance for assignment and mean updates for centroid repositioning. The algorithm converged after 9 iterations.
+We implemented the K-Means algorithm from scratch using Euclidean distance for assignment and centroid updates based on the mean. The algorithm converged after 9 iterations.
 
-Below is a **GIF animation** of the clustering process:
+Below is a **GIF animation** showing how the clustering evolves across iterations:
 
-![Evaluation Metrics](evaluation_plot.png)
+![K-Means Clustering Animation](kmeans_animation.gif)
+
 
 ::: {.callout-note collapse=true title="Custom K-Means Algorithm Implementation"}
 ```{python echo=False}
@@ -138,6 +140,14 @@ gif_path
 ```
 :::
 
+### Choosing the Number of Clusters
+
+To determine the optimal number of clusters (K), we computed:
+
+- **Within-Cluster Sum of Squares (WCSS)**
+- **Silhouette Score**
+
+Both metrics suggested **K = 3** as the best choice:
 
 ::: {.callout-note collapse=true title="Evaluate Cluster Quality (WCSS & Silhouette)"}
 ```{python echo=False}
@@ -169,7 +179,7 @@ ax[1].set_xlabel('Number of Clusters (K)')
 ax[1].set_ylabel('Silhouette Score')
 
 plt.tight_layout()
-plt.savefig("evaluation_plot.png")
+plt.savefig("kmeans_evaluation_vertical.png")
 plt.show()
 
 
@@ -178,16 +188,11 @@ plt.show()
 :::
 
 
-### Choosing the Number of Clusters
 
-To determine the optimal number of clusters (K), we computed:
+### Comparison with Scikit-learn's KMeans
 
-- **Within-Cluster Sum of Squares (WCSS)**
-- **Silhouette Score**
-
-Both metrics suggested **K = 3** as the best choice:
-
-![Sklearn Clustering](sklearn_kmeans.png)
+To validate our custom implementation, we compared the clustering result with scikit-learn's built-in KMeans function.
+The cluster assignments and centroid locations are nearly identical, confirming the correctness of our algorithm.
 
 ::: {.callout-note collapse=true title="Scikit-learn KMeans Comparison"}
 ```{python echo=False}
@@ -205,17 +210,14 @@ plt.title("K-Means Clustering (scikit-learn)")
 plt.xlabel("Bill Length (mm)")
 plt.ylabel("Flipper Length (mm)")
 plt.tight_layout()
-plt.savefig("sklearn_kmeans.png")
+plt.savefig("kmeans_sklearn_clean.png")
 plt.show()
 
 
 ```
 :::
 
-### Comparison with Scikit-learn's KMeans
 
-To validate our custom implementation, we compared the clustering result with `scikit-learn`'s built-in `KMeans` function:
+### Conclusion
 
-![Sklearn Clustering](sklearn_kmeans.png)
-
-The cluster assignments and centroid locations are nearly identical, confirming the correctness of our implementation.
+Our custom K-Means algorithm successfully clustered penguins into three meaningful groups using only bill length and flipper length. Evaluation metrics and visual inspection both suggest that K=3 provides a good balance of cohesion and separation. The results also validate well against the standard scikit-learn implementation.

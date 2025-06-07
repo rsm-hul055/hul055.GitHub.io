@@ -168,6 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#custom-k-means-implementation" id="toc-custom-k-means-implementation" class="nav-link" data-scroll-target="#custom-k-means-implementation">Custom K-Means Implementation</a></li>
   <li><a href="#choosing-the-number-of-clusters" id="toc-choosing-the-number-of-clusters" class="nav-link" data-scroll-target="#choosing-the-number-of-clusters">Choosing the Number of Clusters</a></li>
   <li><a href="#comparison-with-scikit-learns-kmeans" id="toc-comparison-with-scikit-learns-kmeans" class="nav-link" data-scroll-target="#comparison-with-scikit-learns-kmeans">Comparison with Scikit-learn’s KMeans</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -212,7 +213,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This analysis demonstrates how unsupervised learning can be used to segment customers (or in this case, penguins) based on physical characteristics, which is analogous to segmenting markets in marketing analytics.</p>
 <section id="data-preparation" class="level3">
 <h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
-<p>We used the Palmer Penguins dataset and selected two numerical features: - <code>bill_length_mm</code> - <code>flipper_length_mm</code></p>
+<p>We used the Palmer Penguins dataset and selected two numerical features:</p>
+<ul>
+<li><code>bill_length_mm</code></li>
+<li><code>flipper_length_mm</code></li>
+</ul>
 <p>After removing missing values, we applied our custom implementation of the K-Means clustering algorithm.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Read Data">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -226,7 +231,7 @@ Read Data
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="063c69de" class="cell" data-execution_count="1">
+<div id="96e6e6d9" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -325,12 +330,12 @@ Read Data
 </section>
 <section id="custom-k-means-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="custom-k-means-implementation">Custom K-Means Implementation</h3>
-<p>We implemented the K-Means algorithm from scratch, using Euclidean distance for assignment and mean updates for centroid repositioning. The algorithm converged after 9 iterations.</p>
-<p>Below is a <strong>GIF animation</strong> of the clustering process:</p>
+<p>We implemented the K-Means algorithm from scratch using Euclidean distance for assignment and centroid updates based on the mean. The algorithm converged after 9 iterations.</p>
+<p>Below is a <strong>GIF animation</strong> showing how the clustering evolves across iterations:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="evaluation_plot.png" class="img-fluid figure-img"></p>
-<figcaption>Evaluation Metrics</figcaption>
+<p><img src="kmeans_animation.gif" class="img-fluid figure-img"></p>
+<figcaption>K-Means Clustering Animation</figcaption>
 </figure>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Custom K-Means Algorithm Implementation">
@@ -345,7 +350,7 @@ Custom K-Means Algorithm Implementation
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="67089ebc" class="cell" data-execution_count="2">
+<div id="6c04c5fc" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -426,7 +431,7 @@ Create GIF Animation with imageio
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="7c5b4c28" class="cell" data-execution_count="3">
+<div id="b6490000" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> imageio</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate GIF from saved frames</span></span>
@@ -441,7 +446,7 @@ Create GIF Animation with imageio
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>gif_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_138639/411363490.py:10: DeprecationWarning:
+<pre><code>/tmp/ipykernel_163242/411363490.py:10: DeprecationWarning:
 
 Starting with ImageIO v3 the behavior of this function will switch to that of iio.v3.imread. To keep the current behavior (and make this warning disappear) use `import imageio.v2 as imageio` or call `imageio.v2.imread` directly.
 </code></pre>
@@ -453,6 +458,15 @@ Starting with ImageIO v3 the behavior of this function will switch to that of ii
 </div>
 </div>
 </div>
+</section>
+<section id="choosing-the-number-of-clusters" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-the-number-of-clusters">Choosing the Number of Clusters</h3>
+<p>To determine the optimal number of clusters (K), we computed:</p>
+<ul>
+<li><strong>Within-Cluster Sum of Squares (WCSS)</strong></li>
+<li><strong>Silhouette Score</strong></li>
+</ul>
+<p>Both metrics suggested <strong>K = 3</strong> as the best choice:</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Evaluate Cluster Quality (WCSS &amp; Silhouette)">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -465,7 +479,7 @@ Evaluate Cluster Quality (WCSS &amp; Silhouette)
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="9defcaaa" class="cell" data-execution_count="4">
+<div id="f7c6027e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -493,7 +507,7 @@ Evaluate Cluster Quality (WCSS &amp; Silhouette)
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">'Silhouette Score'</span>)</span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"evaluation_plot.png"</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"kmeans_evaluation_vertical.png"</span>)</span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -507,20 +521,9 @@ Evaluate Cluster Quality (WCSS &amp; Silhouette)
 </div>
 </div>
 </section>
-<section id="choosing-the-number-of-clusters" class="level3">
-<h3 class="anchored" data-anchor-id="choosing-the-number-of-clusters">Choosing the Number of Clusters</h3>
-<p>To determine the optimal number of clusters (K), we computed:</p>
-<ul>
-<li><strong>Within-Cluster Sum of Squares (WCSS)</strong></li>
-<li><strong>Silhouette Score</strong></li>
-</ul>
-<p>Both metrics suggested <strong>K = 3</strong> as the best choice:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="sklearn_kmeans.png" class="img-fluid figure-img"></p>
-<figcaption>Sklearn Clustering</figcaption>
-</figure>
-</div>
+<section id="comparison-with-scikit-learns-kmeans" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-with-scikit-learns-kmeans">Comparison with Scikit-learn’s KMeans</h3>
+<p>To validate our custom implementation, we compared the clustering result with scikit-learn’s built-in KMeans function. The cluster assignments and centroid locations are nearly identical, confirming the correctness of our algorithm.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Scikit-learn KMeans Comparison">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -533,7 +536,7 @@ Scikit-learn KMeans Comparison
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="de818e53" class="cell" data-execution_count="5">
+<div id="b8644fa6" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit KMeans from scikit-learn for K=3</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>kmeans_sklearn <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">42</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>labels_sklearn <span class="op">=</span> kmeans_sklearn.fit_predict(X)</span>
@@ -547,7 +550,7 @@ Scikit-learn KMeans Comparison
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Bill Length (mm)"</span>)</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Flipper Length (mm)"</span>)</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"sklearn_kmeans.png"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"kmeans_sklearn_clean.png"</span>)</span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -561,16 +564,9 @@ Scikit-learn KMeans Comparison
 </div>
 </div>
 </section>
-<section id="comparison-with-scikit-learns-kmeans" class="level3">
-<h3 class="anchored" data-anchor-id="comparison-with-scikit-learns-kmeans">Comparison with Scikit-learn’s KMeans</h3>
-<p>To validate our custom implementation, we compared the clustering result with <code>scikit-learn</code>’s built-in <code>KMeans</code> function:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="sklearn_kmeans.png" class="img-fluid figure-img"></p>
-<figcaption>Sklearn Clustering</figcaption>
-</figure>
-</div>
-<p>The cluster assignments and centroid locations are nearly identical, confirming the correctness of our implementation.</p>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>Our custom K-Means algorithm successfully clustered penguins into three meaningful groups using only bill length and flipper length. Evaluation metrics and visual inspection both suggest that K=3 provides a good balance of cohesion and separation. The results also validate well against the standard scikit-learn implementation.</p>
 
 
 </section>
