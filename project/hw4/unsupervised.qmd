@@ -127,7 +127,7 @@ frame_files = sorted([os.path.join(frame_dir, f) for f in os.listdir(frame_dir) 
 gif_path = "./kmeans_animation.gif"
 
 # Create gif
-with imageio.get_writer(gif_path, mode='I', duration=0.6, loop=0) as writer:
+with imageio.get_writer(gif_path, mode='I', duration=5, loop=0) as writer:
     for filename in frame_files:
         image = imageio.imread(filename)
         writer.append_data(image)
